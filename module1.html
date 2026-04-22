@@ -1,1 +1,3497 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Dasturlash Kursi - 12 Dars</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        lora: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        pyblue: '#306998',
+                        pyyellow: '#FFD43B',
+                        pydark: '#1a1a2e',
+                        pyaccent: '#16213e',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Lora', serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a2e; }
+        ::-webkit-scrollbar-thumb { background: #306998; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FFD43B; }
+        .lesson-content { display: none; }
+        .lesson-content.active { display: block; }
+        .nav-item.active { background: linear-gradient(135deg, #306998, #16213e); color: #FFD43B; border-left: 4px solid #FFD43B; }
+        .sub-nav { display: none; }
+        .sub-nav.open { display: block; }
+        code[class*="language-"], pre[class*="language-"] { font-family: 'Fira Code', 'Consolas', monospace !important; font-size: 14px !important; }
+        pre[class*="language-"] { border-radius: 12px !important; margin: 1em 0 !important; }
+        .highlight-box { border-left: 4px solid #FFD43B; background: rgba(48, 105, 152, 0.15); }
+        .tip-box { border-left: 4px solid #10b981; background: rgba(16, 185, 129, 0.1); }
+        .warning-box { border-left: 4px solid #f59e0b; background: rgba(245, 158, 11, 0.1); }
+        .exercise-box { border-left: 4px solid #8b5cf6; background: rgba(139, 92, 246, 0.1); }
+        .key-point { border-left: 4px solid #ef4444; background: rgba(239, 68, 68, 0.08); }
+        .fade-in { animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .mobile-menu { transform: translateX(-100%); transition: transform 0.3s ease; }
+        .mobile-menu.open { transform: translateX(0); }
+        @media (max-width: 1024px) {
+            .sidebar { position: fixed; z-index: 50; }
+        }
+    </style>
+</head>
+<body class="bg-pydark text-gray-200 font-lora">
 
+    <!-- Mobile Header -->
+    <header class="lg:hidden fixed top-0 left-0 right-0 z-50 bg-pydark/95 backdrop-blur border-b border-pyblue/30 px-4 py-3 flex items-center justify-between">
+        <button onclick="toggleMobileMenu()" class="text-pyyellow text-2xl">☰</button>
+        <h1 class="text-lg font-bold text-pyyellow">🐍 Python Kursi</h1>
+        <span class="text-sm text-gray-400">12 Dars</span>
+    </header>
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleMobileMenu()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="mobile-menu fixed top-0 left-0 h-full w-72 bg-pyaccent border-r border-pyblue/20 overflow-y-auto z-50 lg:translate-x-0 lg:z-auto">
+        <div class="p-5 border-b border-pyblue/30">
+            <h1 class="text-xl font-bold text-pyyellow">🐍 Python Kursi</h1>
+            <p class="text-xs text-gray-400 mt-1">Noldan Professionalgacha — 12 Dars</p>
+        </div>
+        <nav class="py-2">
+            <div class="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">Darslar ro'yxati</div>
+            <a href="#" onclick="showLesson(1)" class="nav-item active block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="1">
+                <span class="text-pyyellow mr-2">01</span> Python olamiga kirish
+            </a>
+            <a href="#" onclick="showLesson(2)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="2">
+                <span class="text-pyyellow mr-2">02</span> Matnlar (Strings)
+            </a>
+            <a href="#" onclick="showLesson(3)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="3">
+                <span class="text-pyyellow mr-2">03</span> Operatorlar va If-Else
+            </a>
+            <a href="#" onclick="showLesson(4)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="4">
+                <span class="text-pyyellow mr-2">04</span> Tsikllar (Loops)
+            </a>
+            <a href="#" onclick="showLesson(5)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="5">
+                <span class="text-pyyellow mr-2">05</span> Ro'yxatlar (List)
+            </a>
+            <a href="#" onclick="showLesson(6)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="6">
+                <span class="text-pyyellow mr-2">06</span> Tuples va Sets
+            </a>
+            <a href="#" onclick="showLesson(7)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="7">
+                <span class="text-pyyellow mr-2">07</span> Lug'atlar (Dictionaries)
+            </a>
+            <a href="#" onclick="showLesson(8)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="8">
+                <span class="text-pyyellow mr-2">08</span> Funksiyalar
+            </a>
+            <a href="#" onclick="showLesson(9)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="9">
+                <span class="text-pyyellow mr-2">09</span> Murakkab funksiyalar
+            </a>
+            <a href="#" onclick="showLesson(10)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="10">
+                <span class="text-pyyellow mr-2">10</span> Fayllar bilan ishlash
+            </a>
+            <a href="#" onclick="showLesson(11)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="11">
+                <span class="text-pyyellow mr-2">11</span> Xatoliklar (Exceptions)
+            </a>
+            <a href="#" onclick="showLesson(12)" class="nav-item block px-4 py-3 text-sm hover:bg-pyblue/20 transition border-l-4 border-transparent cursor-pointer" data-lesson="12">
+                <span class="text-pyyellow mr-2">12</span> Modullar va Paketlar
+            </a>
+        </nav>
+        <div class="p-4 border-t border-pyblue/30 mt-4">
+            <p class="text-xs text-gray-500 text-center">Barcha huquqlar himoyalangan © 2025</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="lg:ml-72 pt-16 lg:pt-0 min-h-screen">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- ==================== DARS 1 ==================== -->
+            <div id="lesson-1" class="lesson-content active fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 1</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Python olamiga kirish va ish muhitini tayyorlash</h1>
+                    <p class="text-gray-400">Dasturlash nima, Python nima, va birinchi dasturingizni yozish</p>
+                </div>
+
+                <!-- 1.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">1.1</span>
+                        Dasturlash nima va nima uchun aynan Python?
+                    </h2>
+                    <div class="prose prose-invert max-w-none">
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            <strong class="text-white">Dasturlash</strong> — bu kompyuterga nima qilish kerakligini buyruqlar orqali tushuntirish san'ati. Tasavvur qiling, sizda juda aqlli lekin faqat buyruqni tushunadigan yordamchingiz bor. Dasturlash — shu yordamchiga tushunarli tilda gapirishdir.
+                        </p>
+                        <div class="highlight-box rounded-lg p-4 mb-4">
+                            <p class="text-sm text-gray-300"><strong class="text-pyyellow">💡 Oddiy misol:</strong> Restoranda ofitsiantga "1 ta pitsa va 2 ta kola bering" deysiz. Bu — buyruq. Dasturlashda ham xuddi shunday: kompyuterga "ekranga 'Salom' deb yoz" deymiz.</p>
+                        </div>
+
+                        <h3 class="text-lg font-semibold text-white mt-6 mb-3">Nima uchun Python?</h3>
+                        <ul class="space-y-2 text-gray-300 mb-4">
+                            <li class="flex items-start"><span class="text-pyyellow mr-2">✅</span> <strong>O'rganish oson:</strong> Ingliz tiliga eng yaqin dasturlash tili. Sintaksis sodda va tushunarli.</li>
+                            <li class="flex items-start"><span class="text-pyyellow mr-2">✅</span> <strong>Backend yetakchisi:</strong> Django, Flask, FastAPI kabi frameworklar orqali veb-saytlarning "orqa tomoni"ni yaratishda ishlatiladi.</li>
+                            <li class="flex items-start"><span class="text-pyyellow mr-2">✅</span> <strong>Ko'p qirrali:</strong> Sun'iy intellekt, ma'lumotlar tahlili, avtomatlashtirish, o'yinlar — hammasini Python bilan qilish mumkin.</li>
+                            <li class="flex items-start"><span class="text-pyyellow mr-2">✅</span> <strong>Katta hamjamiyat:</strong> Dunyoda eng ko'p ishlatiladigan tillardan biri. Muammo bo'lsa, yechim topish oson.</li>
+                        </ul>
+
+                        <div class="tip-box rounded-lg p-4 mb-4">
+                            <p class="text-sm text-gray-300"><strong class="text-green-400">🎯 Backend nima?</strong> Veb-sayt ikki qismdan iborat: <strong>Frontend</strong> (foydalanuvchi ko'radigan qism) va <strong>Backend</strong> (serverda ishlaydigan, ma'lumotlarni boshqaradigan qism). Python asosan Backendda ishlatiladi.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 1.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">1.2</span>
+                        Pythonni kompyuterga to'g'ri o'rnatish
+                    </h2>
+
+                    <h3 class="text-lg font-semibold text-white mt-6 mb-3">🪟 Windows uchun</h3>
+                    <ol class="space-y-2 text-gray-300 mb-4 list-decimal list-inside">
+                        <li><a href="https://python.org" class="text-blue-400 underline" target="_blank">python.org</a> saytiga kiring.</li>
+                        <li>"Downloads" bo'limidan eng so'nggi versiyani yuklab oling.</li>
+                        <li>⚠️ <strong>MUHIM:</strong> O'rnatish paytida <code class="bg-pyblue/30 px-2 py-0.5 rounded text-pyyellow text-sm">"Add Python to PATH"</code> katagiga ✅ belgi qo'ying!</li>
+                        <li>"Install Now" tugmasini bosing.</li>
+                        <li>Tekshirish: <code class="bg-pyblue/30 px-2 py-0.5 rounded text-pyyellow text-sm">cmd</code> ochib, <code class="bg-pyblue/30 px-2 py-0.5 rounded text-pyyellow text-sm">python --version</code> yozing.</li>
+                    </ol>
+
+                    <h3 class="text-lg font-semibold text-white mt-6 mb-3">🍎 macOS uchun</h3>
+                    <ol class="space-y-2 text-gray-300 mb-4 list-decimal list-inside">
+                        <li>Terminal oching (Cmd + Space → "Terminal").</li>
+                        <li>Homebrew o'rnatilgan bo'lsa: <code class="bg-pyblue/30 px-2 py-0.5 rounded text-pyyellow text-sm">brew install python3</code></li>
+                        <li>Yoki python.org dan yuklab oling.</li>
+                        <li>Tekshirish: <code class="bg-pyblue/30 px-2 py-0.5 rounded text-pyyellow text-sm">python3 --version</code></li>
+                    </ol>
+
+                    <h3 class="text-lg font-semibold text-white mt-6 mb-3">🐧 Linux uchun</h3>
+                    <ol class="space-y-2 text-gray-300 mb-4 list-decimal list-inside">
+                        <li>Terminal oching.</li>
+                        <li>Ubuntu/Debian: <code class="bg-pyblue/30 px-2 py-0.5 rounded text-pyyellow text-sm">sudo apt update && sudo apt install python3 python3-pip</code></li>
+                        <li>Fedora: <code class="bg-pyblue/30 px-2 py-0.5 rounded text-pyyellow text-sm">sudo dnf install python3</code></li>
+                        <li>Tekshirish: <code class="bg-pyblue/30 px-2 py-0.5 rounded text-pyyellow text-sm">python3 --version</code></li>
+                    </ol>
+
+                    <div class="warning-box rounded-lg p-4 mb-4">
+                        <p class="text-sm text-gray-300"><strong class="text-yellow-400">⚠️ Diqqat:</strong> Windowsda <code>python</code>, macOS/Linuxda <code>python3</code> buyrug'i ishlatiladi. Bu farqni eslab qoling!</p>
+                    </div>
+                </section>
+
+                <!-- 1.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">1.3</span>
+                        IDE va Kod muharrirlarini o'rnatish
+                    </h2>
+
+                    <h3 class="text-lg font-semibold text-white mt-6 mb-3">IDE nima?</h3>
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">IDE</strong> (Integrated Development Environment) — bu kod yozish, ishga tushirish va xatolarni topish uchun mo'ljallangan maxsus dastur. Oddiy so'z bilan aytganda — dasturchining ish stoli.
+                    </p>
+
+                    <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-pyaccent rounded-lg p-5 border border-pyblue/20">
+                            <h4 class="text-pyyellow font-semibold mb-2">🟦 PyCharm</h4>
+                            <p class="text-sm text-gray-400 mb-2">Python uchun maxsus yaratilgan professional IDE.</p>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>• Aqlli kod to'ldirish (autocomplete)</li>
+                                <li>• Ichki debugger va terminal</li>
+                                <li>• Bepul Community versiyasi mavjud</li>
+                            </ul>
+                            <p class="text-xs text-gray-500 mt-2">Yuklab olish: <a href="https://jetbrains.com/pycharm" class="text-blue-400 underline" target="_blank">jetbrains.com/pycharm</a></p>
+                        </div>
+                        <div class="bg-pyaccent rounded-lg p-5 border border-pyblue/20">
+                            <h4 class="text-pyyellow font-semibold mb-2">🟦 VS Code</h4>
+                            <p class="text-sm text-gray-400 mb-2">Microsoft tomonidan yaratilgan yengil va kuchli muharrir.</p>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>• Kengaytmalar (extensions) orqali kuchayadi</li>
+                                <li>• Python extension o'rnating</li>
+                                <li>• Tez ishlaydi, kam joy oladi</li>
+                            </ul>
+                            <p class="text-xs text-gray-500 mt-2">Yuklab olish: <a href="https://code.visualstudio.com" class="text-blue-400 underline" target="_blank">code.visualstudio.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="tip-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-green-400">🎯 Tavsiya:</strong> Yangi boshlovchilar uchun <strong>VS Code</strong> tavsiya etiladi — yengil, tez va sozlash oson. Professional loyihalar uchun <strong>PyCharm</strong> yaxshiroq.</p>
+                    </div>
+                </section>
+
+                <!-- 1.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">1.4</span>
+                        Birinchi "Hello World" dasturi va print() funksiyasi
+                    </h2>
+
+                    <p class="text-gray-300 mb-4">
+                        Har bir dasturchi o'z yo'lini <strong class="text-white">"Hello, World!"</strong> dasturidan boshlaydi. Bu an'ana 1970-yillardan beri davom etib kelmoqda. Keling, biz ham shundan boshlaylik!
+                    </p>
+
+                    <pre><code class="language-python"># Bu sizning birinchi dasturingiz!
+print("Hello, World!")
+print("Salom, Dunyo!")
+print("Men Python dasturchisiman! 🐍")</code></pre>
+
+                    <div class="highlight-box rounded-lg p-4 mb-4">
+                        <p class="text-sm text-gray-300"><strong class="text-pyyellow">💡 print() nima qiladi?</strong> <code>print()</code> — bu Pythonning o'rnatilgan funksiyasi bo'lib, u qavs ichidagi ma'lumotni ekranga chiqaradi. "Print" inglizchadan "chop etish" degani.</p>
+                    </div>
+
+                    <h3 class="text-lg font-semibold text-white mt-6 mb-3">print() funksiyasi sirlari</h3>
+
+                    <pre><code class="language-python"># Bir nechta qiymatni vergul bilan chiqarish
+print("Ism:", "Ali", "Yosh:", 25)
+# Natija: Ism: Ali Yosh: 25
+
+# sep parametri — oraliq belgini belgilaydi
+print("Python", "Django", "FastAPI", sep=" | ")
+# Natija: Python | Django | FastAPI
+
+# end parametri — oxirida nima qo'yilishini belgilaydi
+print("Salom", end=" ")
+print("Dunyo!")
+# Natija: Salom Dunyo! (bir qatorda)
+
+# \n — yangi qatorga o'tish
+print("Birinchi qator\nIkkinchi qator")
+# Natija:
+# Birinchi qator
+# Ikkinchi qator
+
+# \t — tab (bo'sh joy) qo'yish
+print("Ism:\tAli")
+print("Yosh:\t25")</code></pre>
+
+                    <div class="warning-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-yellow-400">⚠️ Eslatma:</strong> <code>print()</code> funksiyasi har safar oxirida avtomatik yangi qatorga o'tadi. <code>end=""</code> parametri bilan buni o'zgartirish mumkin.</p>
+                    </div>
+                </section>
+
+                <!-- 1.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">1.5</span>
+                        Kodga sharhlar (comments) yozish
+                    </h2>
+
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">Sharhlar (comments)</strong> — bu kod ichida yozilgan, lekin Python tomonidan <strong>o'qilmaydigan</strong> matnlar. Ular dasturchilar uchun eslatma, tushuntirish sifatida yoziladi.
+                    </p>
+
+                    <pre><code class="language-python"># Bu bir qatorli sharh — Python buni o'qimaydi
+print("Salom!")  # Sharh kodning oxirida ham bo'lishi mumkin
+
+# Quyidagi kod foydalanuvchiga salom beradi
+ism = "Ali"
+print("Salom, " + ism)
+
+"""
+Bu ko'p qatorli sharh (docstring).
+Bu yerda istalgancha matn yozish mumkin.
+Python buni ham o'qimaydi.
+Ko'pincha funksiyalar va sinflarni tushuntirish uchun ishlatiladi.
+"""
+
+'''
+Yagona qo'shtirnoq bilan ham
+ko'p qatorli sharh yozish mumkin.
+'''</code></pre>
+
+                    <div class="tip-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-green-400">🎯 Yaxshi amaliyot:</strong> Har bir murakkab kod qismiga sharh yozing. 6 oydan keyin o'z kodingizni qayta o'qigangizda, sharhlar sizga juda yordam beradi!</p>
+                    </div>
+                </section>
+
+                <!-- 1.6 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">1.6</span>
+                        O'zgaruvchilar (variables) va nomlash qoidalari
+                    </h2>
+
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">O'zgaruvchi</strong> — bu ma'lumotni saqlash uchun "quti". Tasavvur qiling, sizda turli xil qutilar bor: birida ismingiz, birida yoshingiz, birida manzilingiz saqlanadi. Har bir qutining nomi bor — bu o'zgaruvchi nomi.
+                    </p>
+
+                    <pre><code class="language-python"># O'zgaruvchi yaratish — juda oson!
+ism = "Ali"           # Matn (string)
+yosh = 25             # Butun son (integer)
+boy = 1.75            # Kasr son (float)
+talaba = True         # Mantiqiy qiymat (boolean)
+
+print(ism)            # Ali
+print(yosh)           # 25
+print(boy)            # 1.75
+print(talaba)         # True</code></pre>
+
+                    <h3 class="text-lg font-semibold text-white mt-6 mb-3">PEP-8 nomlash qoidalari</h3>
+                    <p class="text-gray-300 mb-3">
+                        <strong class="text-white">PEP-8</strong> — bu Python kodini yozish bo'yicha rasmiy uslub qo'llanmasi. O'zgaruvchilarni nomlashda quyidagi qoidalarga rioya qiling:
+                    </p>
+
+                    <pre><code class="language-python"># ✅ TO'G'RI nomlash:
+ism = "Ali"                    # kichik harf, tushunarli
+talaba_yoshi = 20              # snake_case (pastki chiziq bilan)
+universitet_nomi = "TATU"      # tushunarli va aniq
+is_admin = False               # boolean uchun is_ prefiksi
+
+# ❌ NOTO'G'RI nomlash:
+Ism = "Ali"                    # Katta harf bilan boshlanmasligi kerak
+talabaYoshi = 20               # camelCase — Python'da tavsiya etilmaydi
+x = "Ali"                      # tushunarsiz, qisqa nom
+2yosh = 20                     # raqam bilan boshlanmasligi kerak!
+ism-familiya = "Ali Vali"      # defis (-) ishlatilmaydi!
+class = "5-sinf"               # Python kalit so'zlarini ishlatmang!
+
+# Python kalit so'zlari (bularni o'zgaruvchi nomi qilib bo'lmaydi):
+# False, None, True, and, as, assert, break, class, continue,
+# def, del, elif, else, except, finally, for, from, global,
+# if, import, in, is, lambda, nonlocal, not, or, pass, raise,
+# return, try, while, with, yield</code></pre>
+
+                    <div class="highlight-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-pyyellow">💡 Qoida:</strong> O'zgaruvchi nomi <strong>harf yoki pastki chiziq (_)</strong> bilan boshlanishi kerak. Raqam bilan boshlash mumkin emas. Faqat harflar, raqamlar va pastki chiziq ishlatiladi.</p>
+                    </div>
+                </section>
+
+                <!-- 1.7 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">1.7</span>
+                        Asosiy ma'lumot turlari (int, float, str, bool)
+                    </h2>
+
+                    <p class="text-gray-300 mb-4">
+                        Pythonda har bir qiymatning <strong class="text-white">turi (type)</strong> bor. Bu turlar kompyuterga ma'lumot bilan qanday ishlash kerakligini aytadi. Keling, 4 ta asosiy turni ko'rib chiqaylik:
+                    </p>
+
+                    <pre><code class="language-python"># 1️⃣ int (Integer) — Butun sonlar
+yosh = 25
+yil = 2025
+harorat = -10
+print(type(yosh))    # &lt;class 'int'&gt;
+
+# 2️⃣ float — Kasr (o'nli) sonlar
+boy = 1.75
+narx = 99.99
+pi = 3.14159
+print(type(boy))     # &lt;class 'float'&gt;
+
+# 3️⃣ str (String) — Matnlar
+ism = "Ali"
+shahar = 'Toshkent'
+xabar = """Bu ko'p qatorli
+matn bo'lishi mumkin"""
+print(type(ism))     # &lt;class 'str'&gt;
+
+# 4️⃣ bool (Boolean) — Mantiqiy qiymatlar (True yoki False)
+talaba = True
+admin = False
+print(type(talaba))  # &lt;class 'bool'&gt;
+
+# type() funksiyasi — ma'lumot turini aniqlaydi
+a = 42
+b = 3.14
+c = "Python"
+d = True
+
+print(type(a))  # &lt;class 'int'&gt;
+print(type(b))  # &lt;class 'float'&gt;
+print(type(c))  # &lt;class 'str'&gt;
+print(type(d))  # &lt;class 'bool'&gt;</code></pre>
+
+                    <div class="highlight-box rounded-lg p-4 mb-4">
+                        <p class="text-sm text-gray-300"><strong class="text-pyyellow">💡 Esda tuting:</strong> Matn doimo qo'shtirnoq <code>" "</code> yoki <code>' '</code> ichida yoziladi. Raqamlar qo'shtirnoqsiz yoziladi. <code>True</code> va <code>False</code> katta harf bilan yoziladi!</p>
+                    </div>
+
+                    <pre><code class="language-python"># Ma'lumot turlarini solishtirish
+print("100")    # Bu — matn (str)
+print(100)      # Bu — son (int)
+print(100.0)    # Bu — kasr son (float)
+
+# Ularning turi har xil!
+print(type("100"))   # &lt;class 'str'&gt;
+print(type(100))     # &lt;class 'int'&gt;
+print(type(100.0))   # &lt;class 'float'&gt;
+
+# True va False — bu aslida 1 va 0
+print(int(True))   # 1
+print(int(False))  # 0</code></pre>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 1</h2>
+
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Salomlashish</h4>
+                        <p class="text-sm text-gray-300">Ekranga <code>"Assalomu alaykum, Python olami!"</code> deb chiqaruvchi dastur yozing.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: Shaxsiy ma'lumotlar</h4>
+                        <p class="text-sm text-gray-300">O'z ismingiz, yoshingiz va shahringizni alohida o'zgaruvchilarga saqlang va ularni <code>print()</code> orqali ekranga chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: Turlarni aniqlash</h4>
+                        <p class="text-sm text-gray-300">Quyidagi qiymatlarning turini <code>type()</code> yordamida aniqlang: <code>42</code>, <code>"Python"</code>, <code>3.14</code>, <code>False</code></p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: Sep va End</h4>
+                        <p class="text-sm text-gray-300"><code>print()</code> funksiyasining <code>sep</code> va <code>end</code> parametrlaridan foydalanib, 3 ta so'zni <code>"---"</code> bilan ajratib, oxirida <code>" ✅"</code> belgisi bilan bir qatorda chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: Sharhlar bilan kod</h4>
+                        <p class="text-sm text-gray-300">O'zingiz haqingizda 5 ta o'zgaruvchi yarating (ism, yosh, boy, talaba, shahar). Har biriga sharh yozing va keyin hammasini <code>print()</code> orqali chiroyli chiqaring.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 1 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> Dasturlash — kompyuterga buyruqlar orqali tushuntirish san'ati.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> Python — o'rganish eng oson va Backendda eng ko'p ishlatiladigan til.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> Python o'rnatishda "Add Python to PATH" ✅ belgisini unutma!</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>print()</code> — ma'lumotni ekranga chiqaradigan funksiya.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>sep</code> — qiymatlar orasidagi belgi, <code>end</code> — oxiridagi belgi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> Sharhlar (<code>#</code>) — Python o'qimaydi, faqat dasturchi uchun.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> O'zgaruvchi — ma'lumot saqlanadigan "quti".</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> PEP-8: o'zgaruvchi nomi kichik harf bilan, <code>snake_case</code> uslubida yoziladi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> 4 ta asosiy tur: <code>int</code> (butun son), <code>float</code> (kasr), <code>str</code> (matn), <code>bool</code> (True/False).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> <code>type()</code> funksiyasi — istalgan qiymatning turini aniqlaydi.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 2 ==================== -->
+            <div id="lesson-2" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 2</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Matnlar (Strings) bilan ishlash</h1>
+                    <p class="text-gray-400">String metodlari, f-string, input() va type casting</p>
+                </div>
+
+                <!-- 2.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">2.1</span>
+                        Takrorlash: O'zgaruvchilar va ma'lumot turlari
+                    </h2>
+                    <p class="text-gray-300 mb-4">O'tgan darsda o'rganganlarimizni eslab ko'raylik:</p>
+                    <pre><code class="language-python"># O'zgaruvchilar va turlar
+ism = "Ali"        # str — matn
+yosh = 25          # int — butun son
+boy = 1.75         # float — kasr son
+talaba = True      # bool — mantiqiy
+
+# type() bilan tekshirish
+print(type(ism))    # &lt;class 'str'&gt;
+print(type(yosh))   # &lt;class 'int'&gt;
+print(type(boy))    # &lt;class 'float'&gt;
+print(type(talaba)) # &lt;class 'bool'&gt;</code></pre>
+                </section>
+
+                <!-- 2.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">2.2</span>
+                        String yaratishning turli usullari
+                    </h2>
+                    <p class="text-gray-300 mb-4">Pythonda matn (string) yaratishning bir necha usuli bor:</p>
+                    <pre><code class="language-python"># 1) Yagona qo'shtirnoq bilan
+matn1 = 'Salom dunyo'
+
+# 2) Qo'sh qo'shtirnoq bilan
+matn2 = "Salom dunyo"
+
+# 3) Uchta qo'shtirnoq — ko'p qatorli matn
+matn3 = """Bu birinchi qator
+Bu ikkinchi qator
+Bu uchinchi qator"""
+
+# 4) Uchta yagona qo'shtirnoq
+matn4 = '''Bu ham
+ko'p qatorli
+matn'''
+
+# Qo'shtirnoq ichida qo'shtirnoq ishlatish
+print("U 'Python' o'qiyapti")     # Tashqi: ", ichki: '
+print('U "Python" o\'qiyapti')    # Escape: \'
+print("U \"Python\" o'qiyapti")   # Escape: \"
+
+print(matn3)
+# Natija:
+# Bu birinchi qator
+# Bu ikkinchi qator
+# Bu uchinchi qator</code></pre>
+
+                    <div class="tip-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-green-400">🎯 Qachon qaysi?</strong> Oddiy matn uchun <code>" "</code> yoki <code>' '</code> farqi yo'q. Ko'p qatorli matn uchun <code>""" """</code> ishlating. Matn ichida qo'shtirnoq bo'lsa, tashqarisida boshqa turini ishlating.</p>
+                    </div>
+                </section>
+
+                <!-- 2.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">2.3</span>
+                        Indekslash va qirqib olish (Slicing)
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        Har bir matndagi belgining o'z <strong class="text-white">indeksi</strong> (raqami) bor. Indekslash <strong>0 dan</strong> boshlanadi!
+                    </p>
+                    <pre><code class="language-python">#        0123456789...
+matn = "Python Dasturlash"
+
+# 📌 Indekslash — bitta belgini olish
+print(matn[0])    # P (birinchi belgi)
+print(matn[1])    # y
+print(matn[5])    # n
+print(matn[-1])   # h (oxirgi belgi — manfiy indeks!)
+print(matn[-2])   # a (oxirdan ikkinchi)
+
+# 📌 Slicing — matnni qirqib olish
+# matn[boshlanish:tugash] — tugash indeksi kirmaydi!
+print(matn[0:6])   # Python (0,1,2,3,4,5 — 6 kirmaydi)
+print(matn[7:17])  # Dasturlash
+print(matn[:6])    # Python (boshidan 6 gacha)
+print(matn[7:])    # Dasturlash (7 dan oxirigacha)
+print(matn[:])     # Python Dasturlash (hammasi)
+
+# 📌 Qadam bilan slicing
+# matn[boshlanish:tugash:qadam]
+print(matn[::2])   # Pto atsulh (har 2-belgini oladi)
+print(matn[::-1])  # halsuratsaD nohtyP (TESKARI!)
+
+# 📌 Amaliy misol
+email = "foydalanuvchi@gmail.com"
+print(email[:13])    # foydalanuvchi
+print(email[14:])    # gmail.com
+print(email[-9:])    # gmail.com</code></pre>
+
+                    <div class="highlight-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-pyyellow">💡 Muhim:</strong> Indekslash 0 dan boshlanadi. Slicing'da tugash indeksi <strong>kirmaydi</strong>. Manfiy indeks — oxirdan boshlab sanaydi. <code>[::-1]</code> — matnni teskari qiladi!</p>
+                    </div>
+                </section>
+
+                <!-- 2.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">2.4</span>
+                        Eng ko'p ishlatiladigan String metodlari
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        String metodlari — bu matn ustida turli amallar bajarish uchun tayyor funksiyalar. Ularni <code>matn.metod()</code> ko'rinishida ishlatamiz.
+                    </p>
+                    <pre><code class="language-python">matn = "Salom Dunyo"
+
+# 📌 upper() — BARCHA HARFLARNI KATTA qiladi
+print(matn.upper())        # SALOM DUNYO
+
+# 📌 lower() — barcha harflarni kichik qiladi
+print(matn.lower())        # salom dunyo
+
+# 📌 title() — Har Bir So'zning Bosh Harfini Katta Qiladi
+print("python dasturlash".title())  # Python Dasturlash
+
+# 📌 capitalize() — Faqat birinchi harfni katta qiladi
+print("python dasturlash".capitalize())  # Python dasturlash
+
+# 📌 replace() — matnning bir qismini almashtiradi
+print(matn.replace("Dunyo", "Python"))  # Salom Python
+print(matn.replace("o", "0"))           # Sal0m Duny0
+
+# 📌 split() — matnni bo'laklarga ajratadi (ro'yxat qaytaradi)
+gap = "Python juda zo'r til"
+sozlar = gap.split()       # Bo'sh joy bo'yicha ajratadi
+print(sozlar)              # ['Python', 'juda', "zo'r", 'til']
+
+sanalar = "2025-01-15"
+qismlar = sanalar.split("-")
+print(qismlar)             # ['2025', '01', '15']
+
+# 📌 strip(), lstrip(), rstrip() — bo'sh joylarni olib tashlaydi
+matn2 = "   Salom   "
+print(matn2.strip())       # "Salom" (ikki tomondan)
+print(matn2.lstrip())      # "Salom   " (chapdan)
+print(matn2.rstrip())      # "   Salom" (o'ngdan)
+
+# 📌 count() — belgi/so'z sonini sanaydi
+print("banana".count("a"))  # 3
+
+# 📌 find() — belgi indeksini topadi (topilmasa -1 qaytaradi)
+print("Python".find("t"))   # 2
+print("Python".find("z"))   # -1
+
+# 📌 startswith() va endswith() — boshlanishi/tugashini tekshiradi
+print("hello.py".endswith(".py"))    # True
+print("hello.py".startswith("hel"))  # True
+
+# 📌 len() — matn uzunligini (belgi sonini) qaytaradi
+print(len("Python"))  # 6</code></pre>
+                </section>
+
+                <!-- 2.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">2.5</span>
+                        Matn formatlash: f-string va .format()
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        O'zgaruvchilarni matn ichiga joylashtirishning bir necha usuli bor. Eng zamonaviy va qulay usul — <strong class="text-white">f-string</strong>.
+                    </p>
+                    <pre><code class="language-python">ism = "Ali"
+yosh = 25
+shahar = "Toshkent"
+
+# ✅ 1-usul: f-string (Eng tavsiya etilgan — Python 3.6+)
+xabar = f"Mening ismim {ism}, yoshim {yosh}, {shahar}da yashayman"
+print(xabar)
+# Natija: Mening ismim Ali, yoshim 25, Toshkentda yashayman
+
+# f-string ichida hisoblash ham mumkin!
+a = 10
+b = 20
+print(f"{a} + {b} = {a + b}")         # 10 + 20 = 30
+print(f"Keyingi yil men {yosh + 1} yoshda bo'laman")
+
+# ✅ 2-usul: .format() (Eski usul, lekin hali ishlatiladi)
+xabar2 = "Mening ismim {}, yoshim {}".format(ism, yosh)
+print(xabar2)
+
+# Nomli .format()
+xabar3 = "Ism: {name}, Yosh: {age}".format(name=ism, age=yosh)
+print(xabar3)
+
+# ❌ 3-usul: + bilan birlashtirish (noqulay)
+xabar4 = "Mening ismim " + ism + ", yoshim " + str(yosh)
+print(xabar4)
+
+# 📌 f-string formatlash imkoniyatlari
+pi = 3.14159265
+print(f"Pi: {pi:.2f}")      # Pi: 3.14 (2 xona kasr)
+print(f"Pi: {pi:.4f}")      # Pi: 3.1416 (4 xona kasr)
+
+son = 42
+print(f"Son: {son:0>5}")    # Son: 00042 (chapdan 0 bilan to'ldirish)
+print(f"Son: {son:*>10}")   # Son: ********42</code></pre>
+
+                    <div class="tip-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-green-400">🎯 Tavsiya:</strong> Har doim <strong>f-string</strong> ishlating! Bu eng o'qilishi oson, eng tez va eng zamonaviy usul.</p>
+                    </div>
+                </section>
+
+                <!-- 2.6 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">2.6</span>
+                        Foydalanuvchidan ma'lumot qabul qilish: input()
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <code>input()</code> funksiyasi foydalanuvchidan klaviatura orqali ma'lumot qabul qiladi. Dastur foydalanuvchi yozib bo'lguncha <strong>to'xtab turadi</strong> (Enter bosilguncha).
+                    </p>
+                    <pre><code class="language-python"># input() — har doim STRING (matn) qaytaradi!
+ism = input("Ismingiz nima? ")
+print(f"Salom, {ism}!")
+
+yosh = input("Yoshingiz nechchi? ")
+print(f"Siz {yosh} yoshdasiz")
+print(type(yosh))  # &lt;class 'str'&gt; — DIQQAT! Matn qaytardi!
+
+# input() har doim str qaytaradi, shuning uchun:
+yosh = int(input("Yoshingiz nechchi? "))  # int ga o'tkazdik
+print(f"Keyingi yil siz {yosh + 1} yoshda bo'lasiz")
+
+# Amaliy misol: Kalkulyator
+son1 = float(input("Birinchi son: "))
+son2 = float(input("Ikkinchi son: "))
+print(f"{son1} + {son2} = {son1 + son2}")
+print(f"{son1} - {son2} = {son1 - son2}")
+print(f"{son1} * {son2} = {son1 * son2}")
+print(f"{son1} / {son2} = {son1 / son2}")</code></pre>
+
+                    <div class="warning-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-yellow-400">⚠️ MUHIM:</strong> <code>input()</code> HAR DOIM <code>str</code> (matn) qaytaradi! Agar son kerak bo'lsa, <code>int()</code> yoki <code>float()</code> bilan o'rab oling.</p>
+                    </div>
+                </section>
+
+                <!-- 2.7 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">2.7</span>
+                        Ma'lumot turlarini bir-biriga o'tkazish (Type Casting)
+                    </h2>
+                    <pre><code class="language-python"># 📌 int() — butun songa o'tkazish
+print(int("42"))      # 42
+print(int(3.14))      # 3 (kasr qismi kesiladi!)
+print(int(True))      # 1
+print(int(False))     # 0
+# print(int("3.14"))  # ❌ XATOLIK! Kasr matnni to'g'ridan-to'g'ri int ga bo'lmaydi
+
+# 📌 float() — kasr songa o'tkazish
+print(float("3.14"))  # 3.14
+print(float(42))      # 42.0
+print(float("100"))   # 100.0
+
+# 📌 str() — matnga o'tkazish
+print(str(42))        # "42"
+print(str(3.14))      # "3.14"
+print(str(True))      # "True"
+
+# 📌 bool() — mantiqiy qiymatga o'tkazish
+print(bool(1))        # True
+print(bool(0))        # False
+print(bool(""))       # False (bo'sh matn)
+print(bool("Salom"))  # True (bo'sh bo'lmagan matn)
+print(bool(0.0))      # False
+print(bool(42))       # True (0 dan farqli har qanday son)
+
+# 📌 Amaliy misol
+narx = input("Narxni kiriting: ")  # "15000" (matn!)
+miqdor = input("Miqdorni kiriting: ")  # "3" (matn!)
+
+# Matnlarni songa o'tkazib hisoblaymiz
+jami = float(narx) * int(miqdor)
+print(f"Jami summa: {jami} so'm")</code></pre>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 2</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Ism va Familiya</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan ismi va familiyasini so'rang. Ularni birlashtirib, <code>f-string</code> orqali "To'liq ismingiz: ..." deb chiqaring. Ismning birinchi harfini katta qiling.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: Email tekshirish</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan email manzilini so'rang. Email'da <code>"@"</code> belgisi bor-yo'qligini tekshiring (<code>find()</code> yoki <code>in</code> yordamida). Natijani chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: So'z sanagich</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan bir gap so'rang. Gapdagi so'zlar sonini <code>split()</code> va <code>len()</code> yordamida hisoblang va chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: Teskari matn</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan so'z so'rang va uni teskari qilib chiqaring (slicing <code>[::-1]</code> yordamida). Masalan: "salom" → "molas".</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: Kichik kalkulyator</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan 2 ta son so'rang (float). Ularning yig'indisi, ayirmasi, ko'paytmasi va bo'linmasini f-string orqali chiroyli chiqaring.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 2 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> String — bu belgilar ketma-ketligi. Har bir belgining indeksi bor (0 dan boshlanadi).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> Slicing: <code>matn[bosh:tugash:qadam]</code> — tugash indeksi kirmaydi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> <code>[::-1]</code> — matnni teskari qiladi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>upper()</code>, <code>lower()</code>, <code>title()</code>, <code>capitalize()</code> — harflarni o'zgartiradi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>replace()</code> — almashtiradi, <code>split()</code> — bo'laklarga ajratadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> <code>f"matn {ozgaruvchi}"</code> — eng zamonaviy matn formatlash usuli.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> <code>input()</code> — foydalanuvchidan ma'lumot oladi, HAR DOIM <code>str</code> qaytaradi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> <code>int()</code>, <code>float()</code>, <code>str()</code>, <code>bool()</code> — turlarni o'tkazish funksiyalari.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> <code>len()</code> — matn uzunligini (belgi sonini) qaytaradi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> Bo'sh matn <code>""</code> — <code>False</code>, bo'sh bo'lmagan matn — <code>True</code>.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 3 ==================== -->
+            <div id="lesson-3" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 3</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Operatorlar va Shartli tekshirishlar (If-Else)</h1>
+                    <p class="text-gray-400">Arifmetik, taqqoslash, mantiqiy operatorlar va shartli konstruksiyalar</p>
+                </div>
+
+                <!-- 3.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">3.1</span>
+                        Takrorlash: String metodlari va input()
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+matn = "Python Zo'r"
+print(matn.upper())     # PYTHON ZO'R
+print(matn.lower())     # python zo'r
+print(matn.replace("Zo'r", "Ajoyib"))  # Python Ajoyib
+
+ism = input("Ismingiz: ")
+print(f"Salom, {ism.title()}!")</code></pre>
+                </section>
+
+                <!-- 3.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">3.2</span>
+                        Arifmetik va o'zlashtirish operatorlari
+                    </h2>
+                    <pre><code class="language-python"># ➕ Arifmetik operatorlar
+a = 15
+b = 4
+
+print(a + b)   # 19   — Qo'shish
+print(a - b)   # 11   — Ayirish
+print(a * b)   # 60   — Ko'paytirish
+print(a / b)   # 3.75 — Bo'lish (har doim float qaytaradi!)
+print(a // b)  # 3    — Butun bo'lish (kasr qismi tashlanadi)
+print(a % b)   # 3    — Qoldiq (15 ni 4 ga bo'lganda qoldiq 3)
+print(a ** b)  # 50625 — Darajaga ko'tarish (15⁴)
+
+# 📌 O'zlashtirish operatorlari
+x = 10       # x ga 10 ni o'zlashtirish
+x += 5       # x = x + 5 → 15
+x -= 3       # x = x - 3 → 12
+x *= 2       # x = x * 2 → 24
+x /= 4       # x = x / 4 → 6.0
+x //= 2      # x = x // 2 → 3.0
+x %= 2       # x = x % 2 → 1.0
+x **= 3      # x = x ** 3 → 1.0
+
+print(x)     # 1.0
+
+# 📌 Amaliy misol: Do'kon kalkulyatori
+narx = 25000
+miqdor = 3
+chegirma = 10  # foizda
+
+jami = narx * miqdor
+chegirma_summa = jami * chegirma / 100
+yakuniy = jami - chegirma_summa
+
+print(f"Jami: {jami} so'm")
+print(f"Chegirma: {chegirma_summa} so'm")
+print(f"To'lov: {yakuniy} so'm")</code></pre>
+                </section>
+
+                <!-- 3.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">3.3</span>
+                        Taqqoslash va Mantiqiy operatorlar
+                    </h2>
+                    <pre><code class="language-python"># 📌 Taqqoslash operatorlari — natija har doim True yoki False
+a = 10
+b = 20
+
+print(a == b)   # False  — Tengmi?
+print(a != b)   # True   — Teng emasmi?
+print(a > b)    # False  — Kattami?
+print(a < b)    # True   — Kichikmi?
+print(a >= b)   # False  — Katta yoki tengmi?
+print(a <= b)   # True   — Kichik yoki tengmi?
+
+# 📌 Mantiqiy operatorlar
+# and — IKKALASI ham True bo'lsa, natija True
+yosh = 25
+print(yosh > 18 and yosh < 30)   # True (ikkalasi to'g'ri)
+print(yosh > 18 and yosh < 22)   # False (ikkinchisi noto'g'ri)
+
+# or — KAMIDA BITTASI True bo'lsa, natija True
+kun = "shanba"
+print(kun == "shanba" or kun == "yakshanba")  # True
+
+# not — Qiymatni teskari qiladi
+talaba = True
+print(not talaba)  # False
+print(not False)   # True
+
+# 📌 Murakkab mantiqiy ifodalar
+yosh = 25
+talaba = True
+ish_tajriba = 3
+
+# Ishga qabul qilish sharti
+if yosh >= 18 and yosh <= 35 and (talaba or ish_tajriba >= 2):
+    print("Siz nomzodsiz! ✅")
+else:
+    print("Afsus, siz nomzod emassiz ❌")</code></pre>
+                </section>
+
+                <!-- 3.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">3.4</span>
+                        Shartli operatorlar: if, else
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">Shartli operatorlar</strong> dasturga "agar shunday bo'lsa, buni qil, aks holda boshqasini qil" deb aytish imkonini beradi.
+                    </p>
+                    <pre><code class="language-python"># 📌 if-else asosiy tuzilishi
+yosh = int(input("Yoshingizni kiriting: "))
+
+if yosh >= 18:
+    print("Siz voyaga yetgansiz ✅")
+    print("Saylovda ovoz berishingiz mumkin")
+else:
+    print("Siz hali voyaga yetmagansiz ❌")
+    print(f"Hali {18 - yosh} yil kutishingiz kerak")
+
+# ⚠️ DIQQAT: Python'da indentatsiya (bo'sh joy) juda muhim!
+# if dan keyin 4 ta bo'sh joy (yoki 1 tab) qo'yiladi
+
+# 📌 Amaliy misol: Baholash tizimi
+ball = int(input("Ballni kiriting (0-100): "))
+
+if ball >= 90:
+    baho = "A'lo"
+elif ball >= 75:
+    baho = "Yaxshi"
+elif ball >= 60:
+    baho = "Qoniqarli"
+else:
+    baho = "Yomon"
+
+print(f"Sizning bahoyingiz: {baho}")</code></pre>
+
+                    <div class="warning-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-yellow-400">⚠️ INDENTATSIYA:</strong> Python'da kod bloklari <strong>4 ta bo'sh joy</strong> (indentation) bilan ajratiladi. <code>{}</code> ishlatilmaydi! Bu qoidani unutma!</p>
+                    </div>
+                </section>
+
+                <!-- 3.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">3.5</span>
+                        elif zanjiri va ichma-ich (nested) if
+                    </h2>
+                    <pre><code class="language-python"># 📌 elif zanjiri — ko'p tarmoqli shartlar
+kun = input("Bugun qaysi kun? ").lower()
+
+if kun == "dushanba":
+    print("Ish boshlanishi 📅")
+elif kun == "chorshanba":
+    print("Hafta o'rtasi 📊")
+elif kun == "juma":
+    print("Dam olish yaqin! 🎉")
+elif kun == "shanba" or kun == "yakshanba":
+    print("Dam olish kuni! 🏖️")
+else:
+    print("Oddiy ish kuni 💼")
+
+# 📌 Ichma-ich (nested) if — shart ichida shart
+yosh = int(input("Yoshingiz: "))
+talaba = input("Talabamisiz? (ha/yo'q): ").lower()
+
+if yosh >= 18:
+    if talaba == "ha":
+        print("Sizga talaba chegirmasi beriladi! 🎓")
+    else:
+        print("Sizga standart narx 💰")
+else:
+    if yosh < 7:
+        print("Sizga bepul! 👶")
+    else:
+        print("Sizga bolalar chegirmasi 🧒")
+
+# 📌 Amaliy misol: ATM tizimi
+balans = 1_000_000
+print(f"Balansingiz: {balans} so'm")
+
+amal = input("Amalni tanlang (yechish/kiritish/balans): ").lower()
+
+if amal == "yechish":
+    summa = int(input("Qancha yechasiz? "))
+    if summa <= balans:
+        balans -= summa
+        print(f"✅ {summa} so'm yechildi. Qoldiq: {balans}")
+    else:
+        print(f"❌ Mablag' yetarli emas! Sizda {balans} so'm bor")
+elif amal == "kiritish":
+    summa = int(input("Qancha kiritasiz? "))
+    balans += summa
+    print(f"✅ {summa} so'm kiritildi. Yangi balans: {balans}")
+elif amal == "balans":
+    print(f"💰 Balansingiz: {balans} so'm")
+else:
+    print("❌ Noto'g'ri amal!")</code></pre>
+                </section>
+
+                <!-- 3.6 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">3.6</span>
+                        Ternary operator va in/not in
+                    </h2>
+                    <pre><code class="language-python"># 📌 Ternary operator — bir qatorli if-else
+yosh = 20
+
+# Oddiy if-else
+if yosh >= 18:
+    status = "Katta"
+else:
+    status = "Bola"
+
+# Ternary — bir qatorda!
+status = "Katta" if yosh >= 18 else "Bola"
+print(status)  # Katta
+
+# Yana misollar
+son = 7
+natija = "Juft" if son % 2 == 0 else "Toq"
+print(f"{son} — {natija}")  # 7 — Toq
+
+# 📌 in operatori — a'zolik tekshiruvi
+mevalar = ["olma", "banan", "uzum"]
+print("olma" in mevalar)     # True
+print("nok" in mevalar)      # False
+print("nok" not in mevalar)  # True
+
+# Matn ichida ham ishlaydi
+gap = "Python dasturlash tili"
+print("Python" in gap)       # True
+print("Java" in gap)         # False
+print("a" in gap)            # True
+
+# 📌 Amaliy misol
+email = input("Email kiriting: ")
+if "@" in email and "." in email:
+    print("✅ Email to'g'ri formatda")
+else:
+    print("❌ Email noto'g'ri!")</code></pre>
+                </section>
+
+                <!-- 3.7 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">3.7</span>
+                        match-case (Python 3.10+)
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        Python 3.10 dan boshlab <code>match-case</code> qo'shildi. Bu boshqa tillardagi <code>switch-case</code> ga o'xshaydi, lekin undan kuchliroq.
+                    </p>
+                    <pre><code class="language-python"># 📌 match-case asoslari
+buyruq = input("Buyruq kiriting (start/stop/restart/status): ").lower()
+
+match buyruq:
+    case "start":
+        print("🟢 Tizim ishga tushdi")
+    case "stop":
+        print("🔴 Tizim to'xtatildi")
+    case "restart":
+        print("🔄 Tizim qayta ishga tushmoqda")
+    case "status":
+        print("📊 Tizim holati: Normal")
+    case _:
+        print("❌ Noma'lum buyruq!")  # _ — default (else)
+
+# 📌 Murakkab match-case
+baho = input("Bahoni kiriting (A/B/C/D/F): ").upper()
+
+match baho:
+    case "A" | "B":  # | — "yoki" degani
+        print("🎉 A'lo natija!")
+    case "C":
+        print("👍 Yaxshi, lekin yaxshilash mumkin")
+    case "D":
+        print("⚠️ Qoniqarli, qayta topshirish kerak")
+    case "F":
+        print("❌ Yiqildingiz, qayta o'qing")
+    case _:
+        print("🤔 Noto'g'ri baho kiritildi")
+
+# 📌 Amaliy misol: Kalkulyator
+son1 = float(input("Birinchi son: "))
+amal = input("Amal (+, -, *, /): ")
+son2 = float(input("Ikkinchi son: "))
+
+match amal:
+    case "+":
+        print(f"Natija: {son1 + son2}")
+    case "-":
+        print(f"Natija: {son1 - son2}")
+    case "*":
+        print(f"Natija: {son1 * son2}")
+    case "/":
+        if son2 != 0:
+            print(f"Natija: {son1 / son2}")
+        else:
+            print("❌ Nolga bo'lish mumkin emas!")
+    case _:
+        print("❌ Noma'lum amal!")</code></pre>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 3</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Juft yoki Toq?</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan son so'rang. Son juft yoki toq ekanligini aniqlang (<code>%</code> operatori va <code>if-else</code> yordamida).</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: Harorat maslahatchisi</h4>
+                        <p class="text-sm text-gray-300">Haroratni so'rang. 30+ bo'lsa "Juda issiq 🥵", 20-30 "Yoqimli 😊", 10-20 "Salqin 🧥", 10 dan past "Sovuq 🥶" deb chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: Login tizimi</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan login va parol so'rang. Oldindan belgilangan login/parol bilan solishtiring. To'g'ri bo'lsa "Xush kelibsiz!", noto'g'ri bo'lsa "Login yoki parol xato!" deb chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: Uchburchak tekshiruvi</h4>
+                        <p class="text-sm text-gray-300">3 ta tomon uzunligini so'rang. Uchburchak yasash mumkinligini tekshiring (har qanday 2 tomon yig'indisi 3-tomonidan katta bo'lishi kerak). Mumkin bo'lsa, teng tomonli, teng yonli yoki har xil tomonli ekanligini aniqlang.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: match-case kalkulyator</h4>
+                        <p class="text-sm text-gray-300">Dars 2 dagi kalkulyatorni <code>match-case</code> yordamida qayta yozing. <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> amallarini bajarsin.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 3 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> <code>/</code> — har doim <code>float</code> qaytaradi. <code>//</code> — butun bo'lish. <code>%</code> — qoldiq. <code>**</code> — daraja.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> <code>==</code> tenglikni tekshiradi, <code>=</code> o'zlashtirish. Aralashtirmang!</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> <code>and</code> — ikkalasi True bo'lsa True. <code>or</code> — kamida bittasi True bo'lsa True.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>not</code> — qiymatni teskari qiladi: <code>not True</code> → <code>False</code>.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> Python'da <strong>indentatsiya</strong> (4 bo'sh joy) juda muhim — kod bloklarini ajratadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> <code>if → elif → elif → else</code> — ko'p tarmoqli shartlar zanjiri.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> Nested if — shart ichida shart yozish mumkin.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> Ternary: <code>"A" if shart else "B"</code> — bir qatorli if-else.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> <code>in</code> — element mavjudligini tekshiradi. <code>not in</code> — yo'qligini.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> <code>match-case</code> (Python 3.10+) — ko'p shartli holatlarni chiroyli yozish usuli.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 4 ==================== -->
+            <div id="lesson-4" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 4</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Tsikllar (Loops) bilan takrorlanuvchi amallar</h1>
+                    <p class="text-gray-400">while, for, range(), break, continue, nested loops</p>
+                </div>
+
+                <!-- 4.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">4.1</span>
+                        Takrorlash: Shartli tekshirishlar
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+son = int(input("Son kiriting: "))
+if son > 0:
+    print("Musbat")
+elif son < 0:
+    print("Manfiy")
+else:
+    print("Nol")</code></pre>
+                </section>
+
+                <!-- 4.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">4.2</span>
+                        while tsikli
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <code>while</code> — shart <strong>True</strong> bo'lganicha kodni qayta-qayta ishlatadi. Shart <strong>False</strong> bo'lganda to'xtaydi.
+                    </p>
+                    <pre><code class="language-python"># 📌 while asoslari
+sanagich = 1
+while sanagich <= 5:
+    print(f"Salom! #{sanagich}")
+    sanagich += 1  # BU MUHIM! Aks holda cheksiz tsikl bo'ladi!
+
+# Natija:
+# Salom! #1
+# Salom! #2
+# Salom! #3
+# Salom! #4
+# Salom! #5
+
+# 📌 Foydalanuvchi bilan muloqot
+javob = ""
+while javob.lower() != "ha":
+    javob = input("Chiqishni xohlaysizmi? (ha/yo'q): ")
+print("Dastur tugadi!")
+
+# 📌 Parol tekshirish
+parol = "python123"
+urinish = 0
+max_urinish = 3
+
+while urinish < max_urinish:
+    kiritilgan = input("Parolni kiriting: ")
+    if kiritilgan == parol:
+        print("✅ Parol to'g'ri! Kirish muvaffaqiyatli")
+        break
+    else:
+        urinish += 1
+        print(f"❌ Noto'g'ri! {max_urinish - urinish} urinish qoldi")
+else:
+    print("🔒 Urinishlar tugadi! Bloklandi")</code></pre>
+
+                    <div class="warning-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-yellow-400">⚠️ CHEKSIZ TSIKL:</strong> <code>while</code> da shart hech qachon <code>False</code> bo'lmasa, dastur abadiy ishlaydi! Har doim sanagichni oshirish yoki <code>break</code> ishlatishni unutmang.</p>
+                    </div>
+                </section>
+
+                <!-- 4.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">4.3</span>
+                        for tsikli va range() funksiyasi
+                    </h2>
+                    <pre><code class="language-python"># 📌 for tsikli — ketma-ketlik bo'ylab aylanish
+mevalar = ["olma", "banan", "uzum", "nok"]
+
+for meva in mevalar:
+    print(f"Men {meva} yaxshi ko'raman 🍎")
+
+# Matn bo'ylab aylanish
+for harf in "Python":
+    print(harf, end=" ")
+# Natija: P y t h o n
+
+# 📌 range() funksiyasi — sonlar ketma-ketligi yaratadi
+# range(stop)
+for i in range(5):
+    print(i, end=" ")  # 0 1 2 3 4
+
+# range(start, stop)
+for i in range(1, 6):
+    print(i, end=" ")  # 1 2 3 4 5
+
+# range(start, stop, step)
+for i in range(0, 11, 2):
+    print(i, end=" ")  # 0 2 4 6 8 10
+
+# Teskari sanash
+for i in range(10, 0, -1):
+    print(i, end=" ")  # 10 9 8 7 6 5 4 3 2 1
+
+# 📌 Amaliy misol: Ko'paytirish jadvali
+son = int(input("Qaysi sonning ko'paytirish jadvali? "))
+for i in range(1, 11):
+    print(f"{son} x {i} = {son * i}")</code></pre>
+                </section>
+
+                <!-- 4.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">4.4</span>
+                        break va continue operatorlari
+                    </h2>
+                    <pre><code class="language-python"># 📌 break — tsiklni BUTUNLAY to'xtatadi
+for i in range(1, 11):
+    if i == 5:
+        print("5 ga yetdi, to'xtataman!")
+        break
+    print(i, end=" ")
+# Natija: 1 2 3 4 (5 da to'xtadi)
+
+# 📌 continue — JORIY iteratsiyani tashlab, keyingisiga o'tadi
+for i in range(1, 11):
+    if i % 2 == 0:
+        continue  # Juft sonlarni tashlab yuboradi
+    print(i, end=" ")
+# Natija: 1 3 5 7 9 (faqat toq sonlar)
+
+# 📌 Amaliy misol: Son topish o'yini
+import random
+yashirin_son = random.randint(1, 20)
+print("Men 1-20 orasida son o'yladim. Toping!")
+
+while True:  # Cheksiz tsikl
+    taxmin = int(input("Taxminingiz: "))
+    if taxmin == yashirin_son:
+        print("🎉 Topdingiz!")
+        break  # Topganda to'xtaydi
+    elif taxmin < yashirin_son:
+        print("⬆️ Kattaroq!")
+    else:
+        print("⬇️ Kichikroq!")</code></pre>
+                </section>
+
+                <!-- 4.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">4.5</span>
+                        Tsikl bilan else bloki
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        Pythonda tsikllarga <code>else</code> bloki qo'shish mumkin! Bu <code>break</code> ishlatilmagan holda tsikl to'liq tugaganda ishlaydi.
+                    </p>
+                    <pre><code class="language-python"># 📌 for-else
+for i in range(5):
+    print(i, end=" ")
+else:
+    print("\n✅ Tsikl muvaffaqiyatli tugadi!")
+# Natija: 0 1 2 3 4
+#         ✅ Tsikl muvaffaqiyatli tugadi!
+
+# break bilan else ISHLAMAYDI
+for i in range(5):
+    if i == 3:
+        break
+    print(i, end=" ")
+else:
+    print("Bu chiqmaydi!")  # break tufayli else ishlamaydi
+# Natija: 0 1 2
+
+# 📌 Amaliy misol: Tub son tekshiruvi
+son = int(input("Son kiriting: "))
+
+for i in range(2, son):
+    if son % i == 0:
+        print(f"{son} — tub son emas ({i} ga bo'linadi)")
+        break
+else:
+    print(f"{son} — tub son! ✅")</code></pre>
+                </section>
+
+                <!-- 4.6 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">4.6</span>
+                        Ichma-ich tsikllar (Nested loops)
+                    </h2>
+                    <pre><code class="language-python"># 📌 Ichma-ich for tsikli
+for i in range(1, 4):
+    for j in range(1, 4):
+        print(f"i={i}, j={j}", end=" | ")
+    print()  # Yangi qator
+
+# 📌 Ko'paytirish jadvali (1-5)
+for i in range(1, 6):
+    for j in range(1, 6):
+        print(f"{i*j:3}", end=" ")
+    print()
+# Natija:
+#   1   2   3   4   5
+#   2   4   6   8  10
+#   3   6   9  12  15
+#   4   8  12  16  20
+#   5  10  15  20  25
+
+# 📌 Yulduzchali naqsh
+for i in range(1, 6):
+    print("* " * i)
+# Natija:
+# *
+# * *
+# * * *
+# * * * *
+# * * * * *
+
+# 📌 Teskari yulduzchali naqsh
+for i in range(5, 0, -1):
+    print("* " * i)
+# Natija:
+# * * * * *
+# * * * *
+# * * *
+# * *
+# *</code></pre>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 4</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Faktoriel hisoblash</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan son so'rang. <code>for</code> tsikli yordamida unning faktorielini hisoblang (n! = 1×2×3×...×n). Masalan: 5! = 120.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: Son topish o'yini</h4>
+                        <p class="text-sm text-gray-300"><code>while</code> tsikli yordamida son topish o'yini yarating. Kompyuter 1-50 orasida son o'ylaydi (<code>random.randint</code>), foydalanuvchi topguncha taxmin qiladi. Har safar "kattaroq" yoki "kichikroq" deb maslahat bering.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: Juft sonlar yig'indisi</h4>
+                        <p class="text-sm text-gray-300">1 dan 100 gacha bo'lgan juft sonlarning yig'indisini hisoblang (<code>for</code> va <code>continue</code> yordamida).</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: Yulduzchali piramida</h4>
+                        <p class="text-sm text-gray-300">Nested loop yordamida piramida shaklini chiqaring. Foydalanuvchi piramida balandligini kiritsin.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: Parol tizimi</h4>
+                        <p class="text-sm text-gray-300"><code>while</code> tsikli yordamida parol tizimi yarating. 3 marta noto'g'ri parol kiritilsa, "Bloklandi" deb chiqarsin. To'g'ri parol kiritilsa "Xush kelibsiz!" deb <code>break</code> qilsin. Oldingi darslardagi <code>input()</code>, <code>if-else</code> va <code>f-string</code> dan foydalaning.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 4 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> <code>while</code> — shart True bo'lganicha takrorlaydi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> <code>for</code> — ketma-ketlik (ro'yxat, matn, range) bo'ylab aylanadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> <code>range(stop)</code>, <code>range(start, stop)</code>, <code>range(start, stop, step)</code></p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>break</code> — tsiklni butunlay to'xtatadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>continue</code> — joriy iteratsiyani tashlab, keyingisiga o'tadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> Tsikl bilan <code>else</code> — <code>break</code> ishlatilmasa ishlaydi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> Nested loops — tsikl ichida tsikl yozish mumkin.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> <code>while True:</code> — cheksiz tsikl, <code>break</code> bilan to'xtatiladi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> <code>while</code> da sanagichni oshirishni unutmasang — cheksiz tsikl bo'ladi!</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> <code>for harf in "matn":</code> — matnning har bir harfi bo'ylab aylanadi.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 5 ==================== -->
+            <div id="lesson-5" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 5</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Ro'yxatlar (List) bilan chuqurlashtirilgan ishlash</h1>
+                    <p class="text-gray-400">List yaratish, metodlar, tartiblash, List Comprehension</p>
+                </div>
+
+                <!-- 5.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">5.1</span>
+                        Takrorlash: for va while tsikllari
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+for i in range(1, 6):
+    print(i, end=" ")  # 1 2 3 4 5
+
+sanagich = 0
+while sanagich < 3:
+    print(sanagich, end=" ")
+    sanagich += 1  # 0 1 2</code></pre>
+                </section>
+
+                <!-- 5.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">5.2</span>
+                        List yaratish va xususiyatlari
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">List (ro'yxat)</strong> — bu turli ma'lumotlarni bitta joyda saqlash imkonini beradigan tuzilma. Kvadrat qavs <code>[]</code> bilan yaratiladi.
+                    </p>
+                    <pre><code class="language-python"># 📌 List yaratish
+mevalar = ["olma", "banan", "uzum", "nok"]
+sonlar = [1, 2, 3, 4, 5]
+aralash = ["Ali", 25, True, 3.14]
+bosh_list = []  # Bo'sh ro'yxat
+
+print(mevalar)       # ['olma', 'banan', 'uzum', 'nok']
+print(type(mevalar)) # &lt;class 'list'&gt;
+print(len(mevalar))  # 4 (elementlar soni)
+
+# 📌 Elementlarga murojaat (indekslash — 0 dan boshlanadi!)
+print(mevalar[0])    # olma
+print(mevalar[1])    # banan
+print(mevalar[-1])   # nok (oxirgi)
+print(mevalar[-2])   # uzum (oxirdan ikkinchi)
+
+# 📌 Slicing (xuddi string kabi)
+print(mevalar[1:3])  # ['banan', 'uzum']
+print(mevalar[:2])   # ['olma', 'banan']
+print(mevalar[2:])   # ['uzum', 'nok']
+
+# 📌 Elementni o'zgartirish
+mevalar[0] = "anor"
+print(mevalar)  # ['anor', 'banan', 'uzum', 'nok']
+
+# 📌 List — o'zgaruvchan (mutable) tuzilma!
+# String'dan farqli o'laroq, elementlarini o'zgartirish mumkin</code></pre>
+                </section>
+
+                <!-- 5.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">5.3</span>
+                        Listga qo'shish va o'chirish metodlari
+                    </h2>
+                    <pre><code class="language-python">mevalar = ["olma", "banan"]
+
+# ➕ Qo'shish metodlari
+mevalar.append("uzum")        # Oxiriga qo'shadi
+print(mevalar)  # ['olma', 'banan', 'uzum']
+
+mevalar.insert(1, "anor")     # 1-indeksga qo'shadi (suradi)
+print(mevalar)  # ['olma', 'anor', 'banan', 'uzum']
+
+mevalar.extend(["nok", "shaftoli"])  # Boshqa listni qo'shadi
+print(mevalar)  # ['olma', 'anor', 'banan', 'uzum', 'nok', 'shaftoli']
+
+# ➖ O'chirish metodlari
+mevalar.remove("banan")       # Qiymat bo'yicha o'chiradi
+print(mevalar)  # ['olma', 'anor', 'uzum', 'nok', 'shaftoli']
+
+ochirilgan = mevalar.pop()    # Oxirgi elementni o'chiradi va qaytaradi
+print(ochirilgan)  # shaftoli
+print(mevalar)     # ['olma', 'anor', 'uzum', 'nok']
+
+ochirilgan2 = mevalar.pop(1)  # 1-indeksdagi elementni o'chiradi
+print(ochirilgan2)  # anor
+
+mevalar.clear()               # Hammasini o'chiradi
+print(mevalar)  # []
+
+# 📌 Boshqa foydali metodlar
+sonlar = [3, 1, 4, 1, 5, 9, 2, 6]
+print(sonlar.count(1))     # 2 (1 necha marta takrorlangan)
+print(sonlar.index(5))     # 4 (5 qaysi indeksda)
+print(5 in sonlar)         # True (5 ro'yxatda bormi?)</code></pre>
+                </section>
+
+                <!-- 5.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">5.4</span>
+                        Tartiblash va nusxalash
+                    </h2>
+                    <pre><code class="language-python"># 📌 sort() — asl ro'yxatni tartiblaydi (o'zgartiradi)
+sonlar = [5, 2, 8, 1, 9, 3]
+sonlar.sort()
+print(sonlar)  # [1, 2, 3, 5, 8, 9] (o'sish tartibida)
+
+sonlar.sort(reverse=True)
+print(sonlar)  # [9, 8, 5, 3, 2, 1] (kamayish tartibida)
+
+# Matnlarni ham tartiblaydi
+mevalar = ["uzum", "olma", "banan", "anor"]
+mevalar.sort()
+print(mevalar)  # ['anor', 'banan', 'olma', 'uzum'] (alifbo bo'yicha)
+
+# 📌 sorted() — asl ro'yxatni o'zgartirmaydi, yangi qaytaradi
+sonlar2 = [5, 2, 8, 1]
+tartiblangan = sorted(sonlar2)
+print(tartiblangan)  # [1, 2, 5, 8]
+print(sonlar2)       # [5, 2, 8, 1] (o'zgarmadi!)
+
+# 📌 reverse() — teskari qiladi
+sonlar = [1, 2, 3, 4, 5]
+sonlar.reverse()
+print(sonlar)  # [5, 4, 3, 2, 1]
+
+# 📌 Nusxalash (copy) — MUHIM!
+a = [1, 2, 3]
+b = a           # Bu nusxa EMAS! b ham a ga ishora qiladi
+b[0] = 99
+print(a)        # [99, 2, 3] — a ham o'zgardi! ❌
+
+# To'g'ri nusxalash:
+a = [1, 2, 3]
+b = a.copy()    # yoki b = list(a) yoki b = a[:]
+b[0] = 99
+print(a)        # [1, 2, 3] — a o'zgarmadi ✅
+print(b)        # [99, 2, 3]</code></pre>
+
+                    <div class="warning-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-yellow-400">⚠️ DIQQAT:</strong> <code>b = a</code> — bu nusxa emas! Ikkala o'zgaruvchi bitta ro'yxatga ishora qiladi. Nusxa olish uchun <code>.copy()</code> ishlating!</p>
+                    </div>
+                </section>
+
+                <!-- 5.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">5.5</span>
+                        List ustida amallar va List Comprehension
+                    </h2>
+                    <pre><code class="language-python"># 📌 Listlarni birlashtirish
+a = [1, 2, 3]
+b = [4, 5, 6]
+c = a + b
+print(c)  # [1, 2, 3, 4, 5, 6]
+
+# 📌 Listni ko'paytirish
+print([0] * 5)  # [0, 0, 0, 0, 0]
+print(["*"] * 3)  # ['*', '*', '*']
+
+# 📌 Tsikl orqali aylanish
+mevalar = ["olma", "banan", "uzum"]
+for meva in mevalar:
+    print(f"🍎 {meva}")
+
+# Indeks bilan aylanish
+for i in range(len(mevalar)):
+    print(f"{i+1}. {mevalar[i]}")
+
+# 📌 LIST COMPREHENSION — ro'yxatni bir qatorda yaratish!
+# Oddiy usul:
+kvadratlar = []
+for i in range(1, 6):
+    kvadratlar.append(i ** 2)
+print(kvadratlar)  # [1, 4, 9, 16, 25]
+
+# Comprehension bilan (BIR QATOR!):
+kvadratlar = [i ** 2 for i in range(1, 6)]
+print(kvadratlar)  # [1, 4, 9, 16, 25]
+
+# Shartli comprehension
+juftlar = [i for i in range(1, 21) if i % 2 == 0]
+print(juftlar)  # [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+
+# if-else bilan comprehension
+natijalar = ["Juft" if i % 2 == 0 else "Toq" for i in range(1, 11)]
+print(natijalar)  # ['Toq', 'Juft', 'Toq', 'Juft', ...]
+
+# Matnlar bilan
+sozlar = ["python", "django", "flask"]
+katta = [s.upper() for s in sozlar]
+print(katta)  # ['PYTHON', 'DJANGO', 'FLASK']</code></pre>
+
+                    <div class="highlight-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-pyyellow">💡 List Comprehension formulasi:</strong><br>
+                        <code>[ifoda for element in ketma_ketlik]</code><br>
+                        <code>[ifoda for element in ketma_ketlik if shart]</code><br>
+                        <code>[ifoda_if if shart else ifoda_else for element in ketma_ketlik]</code></p>
+                    </div>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 5</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Ro'yxat statistikasi</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan 5 ta son so'rang (input bilan). Ro'yxatga joylang. Eng katta, eng kichik, yig'indi va o'rtacha qiymatni chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: Juft va Toq ajratish</h4>
+                        <p class="text-sm text-gray-300">1 dan 20 gacha sonlar ro'yxatini yarating. List comprehension yordamida juft va toq sonlarni alohida ro'yxatlarga ajrating.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: Takrorlanmas ro'yxat</h4>
+                        <p class="text-sm text-gray-300">Takroriy elementlari bor ro'yxat yarating. Yangi ro'yxat yarating, unda takroriy elementlar bo'lmasin (for va <code>not in</code> yordamida).</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: So'zlar uzunligi</h4>
+                        <p class="text-sm text-gray-300">So'zlar ro'yxatini yarating. List comprehension yordamida har bir so'zning uzunligidan iborat ro'yxat yarating. Masalan: <code>["salom", "hi"]</code> → <code>[5, 2]</code></p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: To-do ro'yxat</h4>
+                        <p class="text-sm text-gray-300"><code>while</code> tsikli yordamida oddiy to-do ro'yxat yarating. Foydalanuvchi: "qo'shish", "ko'rish", "o'chirish", "chiqish" amallarini tanlasin. <code>append()</code>, <code>remove()</code>, <code>for</code> dan foydalaning.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 5 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> List — <code>[]</code> kvadrat qavs bilan yaratiladi. Elementlar vergul bilan ajratiladi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> List — mutable (o'zgaruvchan). Elementlarini o'zgartirish, qo'shish, o'chirish mumkin.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> Indekslash 0 dan boshlanadi. <code>list[-1]</code> — oxirgi element.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>append()</code> — oxiriga qo'shadi. <code>insert(i, x)</code> — i-indeksga qo'shadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>remove(x)</code> — qiymat bo'yicha o'chiradi. <code>pop(i)</code> — indeks bo'yicha o'chiradi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> <code>sort()</code> — asl ro'yxatni tartiblaydi. <code>sorted()</code> — yangi tartiblangan ro'yxat qaytaradi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> <code>.copy()</code> — to'g'ri nusxalash. <code>b = a</code> — nusxa emas!</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> <code>+</code> — listlarni birlashtiradi. <code>*</code> — takrorlaydi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> List Comprehension: <code>[ifoda for x in ketma_ketlik if shart]</code></p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> <code>len()</code> — elementlar soni. <code>in</code> — mavjudlik tekshiruvi.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 6 ==================== -->
+            <div id="lesson-6" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 6</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Tuples (Kortejlar) va Sets (To'plamlar)</h1>
+                    <p class="text-gray-400">O'zgarmas ro'yxatlar, to'plamlar nazariyasi va frozenset</p>
+                </div>
+
+                <!-- 6.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">6.1</span>
+                        Takrorlash: List va metodlari
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+sonlar = [5, 3, 8, 1]
+sonlar.append(10)
+sonlar.sort()
+print(sonlar)  # [1, 3, 5, 8, 10]
+kv = [x**2 for x in range(1, 6)]
+print(kv)  # [1, 4, 9, 16, 25]</code></pre>
+                </section>
+
+                <!-- 6.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">6.2</span>
+                        Tuple (Kortej) — O'zgarmas ro'yxat
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">Tuple</strong> — listga o'xshaydi, lekin yaratilgandan keyin <strong>o'zgartirib bo'lmaydi</strong> (immutable). Dumaloq qavs <code>()</code> bilan yaratiladi.
+                    </p>
+                    <pre><code class="language-python"># 📌 Tuple yaratish
+ranglar = ("qizil", "yashil", "ko'k")
+koordinatalar = (10, 20)
+bitta = (42,)  # DIQQAT! Bitta elementli tuple oxirida vergul kerak!
+
+print(ranglar)        # ('qizil', 'yashil', 'ko'k')
+print(type(ranglar))  # &lt;class 'tuple'&gt;
+
+# 📌 Murojaat — list kabi
+print(ranglar[0])   # qizil
+print(ranglar[-1])  # ko'k
+print(ranglar[1:])  # ('yashil', 'ko'k')
+
+# ❌ O'zgartirish mumkin EMAS!
+# ranglar[0] = "sariq"  # TypeError!
+
+# 📌 Tuple vs List farqi
+ro_yxat = ["olma", "banan"]   # List — o'zgaruvchan (mutable)
+ro_yxat[0] = "anor"           # ✅ Ishlaydi
+
+kortej = ("olma", "banan")    # Tuple — o'zgarmas (immutable)
+# kortej[0] = "anor"          # ❌ XATOLIK!
+
+# 📌 Nima uchun tuple kerak?
+# 1. Ma'lumot o'zgarmasligini kafolatlaydi
+# 2. Listdan tezroq ishlaydi
+# 3. Kamroq xotira oladi
+# 4. Dictionary kaliti sifatida ishlatiladi (list ishlatilmaydi)</code></pre>
+                </section>
+
+                <!-- 6.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">6.3</span>
+                        Tuple unpacking
+                    </h2>
+                    <pre><code class="language-python"># 📌 Tuple unpacking — qiymatlarni o'zgaruvchilarga yoyish
+shaxs = ("Ali", 25, "Toshkent")
+ism, yosh, shahar = shaxs  # BIR QATORDA!
+
+print(ism)    # Ali
+print(yosh)   # 25
+print(shahar) # Toshkent
+
+# 📌 Qiymatlarni almashtirish (swap)
+a = 10
+b = 20
+a, b = b, a  # Tuple unpacking orqali!
+print(a, b)  # 20 10
+
+# 📌 * bilan qolgan elementlarni yig'ish
+sonlar = (1, 2, 3, 4, 5)
+birinchi, *qolgan, oxirgi = sonlar
+print(birinchi)  # 1
+print(qolgan)    # [2, 3, 4]
+print(oxirgi)    # 5
+
+# 📌 Funksiyadan bir nechta qiymat qaytarish
+def hisobla(a, b):
+    return a + b, a - b, a * b  # Tuple qaytaradi
+
+yig, ayr, kop = hisobla(10, 3)
+print(f"Yig'indi: {yig}, Ayirma: {ayr}, Ko'paytma: {kop}")</code></pre>
+                </section>
+
+                <!-- 6.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">6.4</span>
+                        Set (To'plam) — Takrorlanmas elementlar
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">Set</strong> — takrorlanmas elementlar to'plami. Jingalak qavs <code>{}</code> bilan yaratiladi. Elementlar tartibsiz (order yo'q).
+                    </p>
+                    <pre><code class="language-python"># 📌 Set yaratish
+mevalar = {"olma", "banan", "uzum", "olma"}  # "olma" takrorlangan
+print(mevalar)  # {'olma', 'banan', 'uzum'} — takroriy o'chirildi!
+
+# Bo'sh set yaratish
+bosh_set = set()  # {} emas! {} — bu bo'sh dictionary!
+
+# Listdan set yaratish (takroriylarni olib tashlash)
+sonlar = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+unikal = set(sonlar)
+print(unikal)  # {1, 2, 3, 4}
+print(list(unikal))  # [1, 2, 3, 4] — yana listga qaytarish
+
+# 📌 Set metodlari
+mevalar = {"olma", "banan"}
+
+mevalar.add("uzum")        # Qo'shish
+print(mevalar)  # {'olma', 'banan', 'uzum'}
+
+mevalar.update(["nok", "anor"])  # Bir nechta qo'shish
+print(mevalar)
+
+mevalar.remove("banan")    # O'chirish (bo'lmasa xatolik!)
+mevalar.discard("nok")     # O'chirish (bo'lmasa xatolik YO'Q!)
+
+mevalar.pop()              # Tasodifiy elementni o'chiradi
+mevalar.clear()            # Hammasini o'chiradi</code></pre>
+                </section>
+
+                <!-- 6.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">6.5</span>
+                        To'plamlar nazariyasi amallari va Frozenset
+                    </h2>
+                    <pre><code class="language-python"># 📌 To'plamlar amallari
+a = {1, 2, 3, 4, 5}
+b = {4, 5, 6, 7, 8}
+
+# Birlashma (Union) — ikkalasidagi HAMMA elementlar
+print(a | b)              # {1, 2, 3, 4, 5, 6, 7, 8}
+print(a.union(b))         # {1, 2, 3, 4, 5, 6, 7, 8}
+
+# Kesishma (Intersection) — ikkalasida HAM borlari
+print(a & b)              # {4, 5}
+print(a.intersection(b))  # {4, 5}
+
+# Farq (Difference) — a da bor, b da yo'qlari
+print(a - b)              # {1, 2, 3}
+print(a.difference(b))    # {1, 2, 3}
+
+# Simmetrik farq — faqat BITTASIDA borlari
+print(a ^ b)                        # {1, 2, 3, 6, 7, 8}
+print(a.symmetric_difference(b))    # {1, 2, 3, 6, 7, 8}
+
+# 📌 Frozenset — o'zgarmas set
+fs = frozenset([1, 2, 3])
+# fs.add(4)  # ❌ XATOLIK! Frozenset o'zgarmas!
+
+# Frozenset dictionary kaliti bo'lishi mumkin
+lugat = {frozenset([1, 2]): "bir-ikki"}
+print(lugat[frozenset([1, 2])])  # bir-ikki</code></pre>
+
+                    <div class="tip-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-green-400">🎯 Qachon frozenset?</strong> Agar to'plamingiz o'zgarmasligini xohlasangiz yoki dictionary kaliti sifatida ishlatmoqchi bo'lsangiz, <code>frozenset</code> ishlating.</p>
+                    </div>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 6</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Tuple unpacking</h4>
+                        <p class="text-sm text-gray-300">Tuple yarating: <code>("Samarqand", 500000, "O'zbekiston")</code>. Unpacking orqali 3 ta o'zgaruvchiga yoying va f-string bilan chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: Takroriylarni olib tashlash</h4>
+                        <p class="text-sm text-gray-300">Takroriy sonlar ro'yxatini yarating. <code>set()</code> yordamida takroriylarni olib tashlang va natijani yana listga aylantiring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: Umumiy do'stlar</h4>
+                        <p class="text-sm text-gray-300">Ikki kishining do'stlari ro'yxatini set sifatida yarating. Ularning umumiy do'stlarini (intersection) toping.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: Tuple va List solishtirish</h4>
+                        <p class="text-sm text-gray-300">Bir xil ma'lumotli list va tuple yarating. Ularning xotira hajmini <code>sys.getsizeof()</code> yordamida solishtiring. Qaysi biri kamroq joy oladi?</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: Set amallari</h4>
+                        <p class="text-sm text-gray-300">Ikki sinf o'quvchilarini set sifatida yarating. Birlashma, kesishma, farq va simmetrik farqni hisoblang va natijalarni chiqaring. Oldingi darslardan <code>f-string</code> va <code>len()</code> dan foydalaning.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 6 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> Tuple — <code>()</code> bilan yaratiladi, o'zgarmas (immutable).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> Bitta elementli tuple: <code>(42,)</code> — vergul shart!</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> Tuple unpacking: <code>a, b = (1, 2)</code> — qiymatlarni yoyish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>a, b = b, a</code> — qiymatlarni almashtirish (swap).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> Set — <code>{}</code> bilan yaratiladi, takrorlanmas elementlar.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> Bo'sh set: <code>set()</code> — <code>{}</code> emas (bu dictionary!).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> <code>set(list)</code> — takroriylarni olib tashlashning eng oson yo'li.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> <code>|</code> birlashma, <code>&</code> kesishma, <code>-</code> farq, <code>^</code> simmetrik farq.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> <code>discard()</code> — xatolik bermaydi. <code>remove()</code> — bo'lmasa xatolik beradi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> <code>frozenset</code> — o'zgarmas set, dictionary kaliti bo'lishi mumkin.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 7 ==================== -->
+            <div id="lesson-7" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 7</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Lug'atlar (Dictionaries) bilan ishlash</h1>
+                    <p class="text-gray-400">Key-Value juftliklari, metodlar, nested dict, dict comprehension</p>
+                </div>
+
+                <!-- 7.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">7.1</span>
+                        Takrorlash: Tuple va Set
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+t = ("Ali", 25, "Toshkent")
+ism, yosh, shahar = t
+
+s1 = {1, 2, 3, 4}
+s2 = {3, 4, 5, 6}
+print(s1 & s2)  # {3, 4} — kesishma</code></pre>
+                </section>
+
+                <!-- 7.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">7.2</span>
+                        Dictionary yaratish — Kalit-Qiymat juftligi
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">Dictionary (lug'at)</strong> — kalit (key) va qiymat (value) juftliklaridan tashkil topgan tuzilma. Haqiqiy lug'at kabi: so'z (kalit) → tarjima (qiymat).
+                    </p>
+                    <pre><code class="language-python"># 📌 Dictionary yaratish
+talaba = {
+    "ism": "Ali",
+    "yosh": 25,
+    "shahar": "Toshkent",
+    "talaba": True,
+    "fanlar": ["Matematika", "Fizika"]
+}
+
+print(talaba)
+print(type(talaba))  # &lt;class 'dict'&gt;
+
+# 📌 Kalit orqali qiymat olish
+print(talaba["ism"])      # Ali
+print(talaba["yosh"])     # 25
+print(talaba["fanlar"])   # ['Matematika', 'Fizika']
+
+# get() — xavfsiz olish (kalit bo'lmasa None qaytaradi)
+print(talaba.get("ism"))        # Ali
+print(talaba.get("familiya"))   # None (xatolik bermaydi!)
+print(talaba.get("familiya", "Noma'lum"))  # Noma'lum (default qiymat)
+
+# 📌 Boshqa usullar
+bosh_dict = {}  # Bo'sh lug'at
+dict2 = dict(ism="Ali", yosh=25)  # dict() funksiyasi bilan
+print(dict2)  # {'ism': 'Ali', 'yosh': 25}</code></pre>
+
+                    <div class="warning-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-yellow-400">⚠️ DIQQAT:</strong> <code>dict["kalit"]</code> — kalit bo'lmasa <code>KeyError</code> beradi. <code>dict.get("kalit")</code> — xavfsiz, <code>None</code> qaytaradi. Imkon qadar <code>.get()</code> ishlating!</p>
+                    </div>
+                </section>
+
+                <!-- 7.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">7.3</span>
+                        Qo'shish, o'zgartirish, o'chirish
+                    </h2>
+                    <pre><code class="language-python">talaba = {"ism": "Ali", "yosh": 25}
+
+# ➕ Yangi kalit-qo'shish
+talaba["shahar"] = "Toshkent"
+talaba["kurs"] = 3
+print(talaba)
+# {'ism': 'Ali', 'yosh': 25, 'shahar': 'Toshkent', 'kurs': 3}
+
+# ✏️ Mavjud kalitni o'zgartirish
+talaba["yosh"] = 26
+print(talaba["yosh"])  # 26
+
+# update() — bir nechta qiymatni yangilash
+talaba.update({"yosh": 27, "kurs": 4, "gpa": 3.8})
+print(talaba)
+
+# ➖ O'chirish
+del talaba["kurs"]           # Kalitni o'chirish
+qiymat = talaba.pop("gpa")   # O'chiradi va qiymatni qaytaradi
+print(qiymat)  # 3.8
+
+kalit_va_qiymat = talaba.popitem()  # Oxirgi juftlikni o'chiradi
+print(kalit_va_qiymat)  # ('shahar', 'Toshkent')
+
+# talaba.clear()  # Hammasini o'chirish</code></pre>
+                </section>
+
+                <!-- 7.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">7.4</span>
+                        Dictionary metodlari va tsikl bilan aylanish
+                    </h2>
+                    <pre><code class="language-python">talaba = {"ism": "Ali", "yosh": 25, "shahar": "Toshkent"}
+
+# 📌 Asosiy metodlar
+print(talaba.keys())    # dict_keys(['ism', 'yosh', 'shahar'])
+print(talaba.values())  # dict_values(['Ali', 25, 'Toshkent'])
+print(talaba.items())   # dict_items([('ism', 'Ali'), ('yosh', 25), ...])
+
+# 📌 Kalitlar bo'ylab aylanish
+for kalit in talaba:  # yoki talaba.keys()
+    print(f"{kalit}: {talaba[kalit]}")
+
+# 📌 Qiymatlar bo'ylab aylanish
+for qiymat in talaba.values():
+    print(qiymat)
+
+# 📌 Kalit-Qiymat juftligi bo'ylab aylanish (ENG QULAY!)
+for kalit, qiymat in talaba.items():
+    print(f"{kalit} → {qiymat}")
+# Natija:
+# ism → Ali
+# yosh → 25
+# shahar → Toshkent
+
+# 📌 Kalit mavjudligini tekshirish
+print("ism" in talaba)        # True
+print("familiya" in talaba)   # False
+print("Ali" in talaba.values())  # True</code></pre>
+                </section>
+
+                <!-- 7.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">7.5</span>
+                        Nested Dictionaries va Dict Comprehension
+                    </h2>
+                    <pre><code class="language-python"># 📌 Ichma-ich lug'atlar (Nested Dict)
+sinf = {
+    "talaba1": {
+        "ism": "Ali",
+        "yosh": 20,
+        "baholar": {"mat": 5, "fiz": 4, "ing": 5}
+    },
+    "talaba2": {
+        "ism": "Vali",
+        "yosh": 21,
+        "baholar": {"mat": 4, "fiz": 5, "ing": 3}
+    },
+    "talaba3": {
+        "ism": "Hasan",
+        "yosh": 19,
+        "baholar": {"mat": 3, "fiz": 3, "ing": 4}
+    }
+}
+
+# Murojaat
+print(sinf["talaba1"]["ism"])              # Ali
+print(sinf["talaba2"]["baholar"]["mat"])   # 4
+
+# Barcha talabalarni chiqarish
+for id, malumot in sinf.items():
+    ism = malumot["ism"]
+    baholar = malumot["baholar"]
+    ortacha = sum(baholar.values()) / len(baholar)
+    print(f"{ism}: O'rtacha baho — {ortacha:.1f}")
+
+# 📌 Dict Comprehension
+# 1-10 sonlarning kvadratlari
+kvadratlar = {x: x**2 for x in range(1, 11)}
+print(kvadratlar)
+# {1: 1, 2: 4, 3: 9, 4: 16, 5: 25, ...}
+
+# Shartli dict comprehension
+juft_kv = {x: x**2 for x in range(1, 11) if x % 2 == 0}
+print(juft_kv)  # {2: 4, 4: 16, 6: 36, 8: 64, 10: 100}
+
+# Ikki ro'yxatdan dictionary yaratish
+kalitlar = ["ism", "yosh", "shahar"]
+qiymatlar = ["Ali", 25, "Toshkent"]
+lugat = {k: v for k, v in zip(kalitlar, qiymatlar)}
+print(lugat)  # {'ism': 'Ali', 'yosh': 25, 'shahar': 'Toshkent'}</code></pre>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 7</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Telefon daftarcha</h4>
+                        <p class="text-sm text-gray-300">Dictionary yarating: ismlar kalit, telefon raqamlar qiymat. Foydalanuvchi ism kiritsa, raqamni chiqaring (<code>.get()</code> bilan). Bo'lmasa "Topilmadi" deb chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: Baholar lug'ati</h4>
+                        <p class="text-sm text-gray-300">5 ta fan va bahodan iborat dictionary yarating. <code>for</code> tsikli bilan barcha fanlarni chiqaring va o'rtacha bahoni hisoblang.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: So'z sanagich</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan gap so'rang. Har bir so'z necha marta takrorlanganini dictionary'da saqlang. <code>split()</code> va <code>.get()</code> dan foydalaning.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: Nested dict — Do'kon</h4>
+                        <p class="text-sm text-gray-300">Do'kon mahsulotlarini nested dict sifatida yarating (har bir mahsulot: nomi, narxi, miqdori). Barcha mahsulotlarning umumiy qiymatini hisoblang.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: Dict Comprehension</h4>
+                        <p class="text-sm text-gray-300">Dict comprehension yordamida 1-20 orasidagi sonlarning kvadrat ildizini saqlaydigan lug'at yarating. Faqat juft sonlarni kiriting. Oldingi darslardan <code>range()</code>, <code>if</code>, <code>**</code> dan foydalaning.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 7 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> Dictionary — <code>{kalit: qiymat}</code> juftliklar to'plami.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> Kalitlar unikal (takrorlanmas) va o'zgarmas turda bo'lishi kerak.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> <code>dict["kalit"]</code> — qiymat olish (xatolik berishi mumkin).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>dict.get("kalit", default)</code> — xavfsiz olish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>.keys()</code> — kalitlar, <code>.values()</code> — qiymatlar, <code>.items()</code> — juftliklar.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> <code>for k, v in dict.items():</code> — eng qulay aylanish usuli.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> <code>del dict["k"]</code>, <code>dict.pop("k")</code>, <code>dict.popitem()</code> — o'chirish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> Nested dict — lug'at ichida lug'at saqlash mumkin.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> Dict Comprehension: <code>{k: v for k, v in ... if ...}</code></p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> <code>"kalit" in dict</code> — kalit mavjudligini tekshiradi.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 8 ==================== -->
+            <div id="lesson-8" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 8</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Funksiyalar (Functions) va modullik</h1>
+                    <p class="text-gray-400">def, argumentlar, return, *args, **kwargs, scope</p>
+                </div>
+
+                <!-- 8.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">8.1</span>
+                        Takrorlash: Dictionary
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+d = {"ism": "Ali", "yosh": 25}
+for k, v in d.items():
+    print(f"{k}: {v}")
+kv = {x: x**2 for x in range(1, 6)}
+print(kv)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}</code></pre>
+                </section>
+
+                <!-- 8.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">8.2</span>
+                        Funksiya nima? def va return
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">Funksiya</strong> — bu qayta ishlatiladigan kod bloki. Bir marta yozasiz, istalgancha chaqirasiz. Tasavvur qiling: retsept — funksiya, taom — natija.
+                    </p>
+                    <pre><code class="language-python"># 📌 Funksiya e'lon qilish
+def salom_ber():
+    """Bu funksiya salom beradi"""
+    print("Assalomu alaykum! 👋")
+
+# Funksiyani chaqirish
+salom_ber()  # Assalomu alaykum! 👋
+salom_ber()  # Yana chaqirdik!
+
+# 📌 Argumentli funksiya
+def salom_ber(ism):
+    print(f"Assalomu alaykum, {ism}! 👋")
+
+salom_ber("Ali")   # Assalomu alaykum, Ali! 👋
+salom_ber("Vali")  # Assalomu alaykum, Vali! 👋
+
+# 📌 return — natija qaytarish
+def qosh(a, b):
+    return a + b
+
+natija = qosh(5, 3)
+print(natija)  # 8
+
+# Bir nechta qiymat qaytarish (tuple sifatida)
+def hisobla(a, b):
+    return a + b, a - b, a * b, a / b
+
+y, a, k, b = hisobla(10, 2)
+print(f"Yig'indi: {y}, Ayirma: {a}, Ko'paytma: {k}, Bo'linma: {b}")
+
+# 📌 Amaliy misol
+def baho_hisobla(ball):
+    if ball >= 90:
+        return "A'lo"
+    elif ball >= 75:
+        return "Yaxshi"
+    elif ball >= 60:
+        return "Qoniqarli"
+    else:
+        return "Yomon"
+
+print(baho_hisobla(85))  # Yaxshi
+print(baho_hisobla(45))  # Yomon</code></pre>
+                </section>
+
+                <!-- 8.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">8.3</span>
+                        Default argumentlar va Keyword arguments
+                    </h2>
+                    <pre><code class="language-python"># 📌 Default (standart) qiymatli parametrlar
+def salom_ber(ism, til="uz"):
+    if til == "uz":
+        print(f"Salom, {ism}!")
+    elif til == "en":
+        print(f"Hello, {ism}!")
+    elif til == "ru":
+        print(f"Привет, {ism}!")
+
+salom_ber("Ali")           # Salom, Ali! (default: uz)
+salom_ber("John", "en")    # Hello, John!
+salom_ber("Иван", "ru")    # Привет, Иван!
+
+# 📌 Keyword arguments (nomli argumentlar)
+def malumot(ism, yosh, shahar):
+    print(f"{ism}, {yosh} yosh, {shahar}")
+
+# Tartib bilan
+malumot("Ali", 25, "Toshkent")
+
+# Nomli argumentlar — tartib muhim emas!
+malumot(shahar="Toshkent", ism="Ali", yosh=25)
+
+# Aralash (pozitsion argumentlar avval bo'lishi kerak!)
+malumot("Ali", shahar="Toshkent", yosh=25)
+
+# 📌 Amaliy misol
+def tolov(summa, valyuta="so'm", chegirma=0):
+    yakuniy = summa - (summa * chegirma / 100)
+    print(f"To'lov: {yakuniy:,.0f} {valyuta}")
+
+tolov(100000)                    # 100,000 so'm
+tolov(100000, chegirma=10)       # 90,000 so'm
+tolov(100, "USD", 5)             # 95 USD</code></pre>
+                </section>
+
+                <!-- 8.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">8.4</span>
+                        *args va **kwargs
+                    </h2>
+                    <pre><code class="language-python"># 📌 *args — ixtiyoriy sondagi POZITSION argumentlar
+def yigindi(*args):
+    """Istalgan sondagi sonlarning yig'indisini hisoblaydi"""
+    return sum(args)
+
+print(yigindi(1, 2, 3))          # 6
+print(yigindi(10, 20, 30, 40))   # 100
+print(yigindi())                  # 0
+
+# args — bu tuple!
+def info(*args):
+    print(type(args))  # &lt;class 'tuple'&gt;
+    for item in args:
+        print(item)
+
+info("Ali", 25, "Toshkent", True)
+
+# 📌 **kwargs — ixtiyoriy sondagi NOMLI argumentlar
+def profil(**kwargs):
+    """Istalgan sondagi nomli argumentlarni qabul qiladi"""
+    for kalit, qiymat in kwargs.items():
+        print(f"{kalit}: {qiymat}")
+
+profil(ism="Ali", yosh=25, shahar="Toshkent")
+# Natija:
+# ism: Ali
+# yosh: 25
+# shahar: Toshkent
+
+profil(ism="Vali", email="vali@mail.com", tel="+998901234567")
+
+# kwargs — bu dictionary!
+
+# 📌 *args va **kwargs birgalikda
+def super_funksiya(ism, *args, **kwargs):
+    print(f"Ism: {ism}")
+    print(f"Qo'shimcha: {args}")
+    print(f"Ma'lumotlar: {kwargs}")
+
+super_funksiya("Ali", 25, "Toshkent", email="ali@mail.com", tel="123")</code></pre>
+                </section>
+
+                <!-- 8.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">8.5</span>
+                        O'zgaruvchilarning ko'rinish doirasi (Scope)
+                    </h2>
+                    <pre><code class="language-python"># 📌 Global o'zgaruvchi — funksiya tashqarisida
+son = 100  # Global
+
+def oshir():
+    print(son)  # Global o'zgaruvchini o'qish mumkin ✅
+
+oshir()  # 100
+
+# 📌 Local o'zgaruvchi — funksiya ichida
+def hisobla():
+    natija = 42  # Local — faqat funksiya ichida ko'rinadi
+    return natija
+
+print(hisobla())  # 42
+# print(natija)   # ❌ NameError! Tashqarida ko'rinmaydi!
+
+# 📌 Global o'zgaruvchini o'zgartirish (global kalit so'zi)
+hisoblagich = 0
+
+def increment():
+    global hisoblagich  # Global ekanligini aytamiz
+    hisoblagich += 1
+
+increment()
+increment()
+increment()
+print(hisoblagich)  # 3
+
+# 📌 LEGB qoidasi — Python qayerdan qidiradi:
+# L - Local (funksiya ichi)
+# E - Enclosing (ichki funksiya tashqarisi)
+# G - Global (fayl darajasi)
+# B - Built-in (Python o'rnatilgan)
+
+x = "Global"
+
+def tashqi():
+    x = "Enclosing"
+    def ichki():
+        x = "Local"
+        print(x)  # Local (eng yaqin)
+    ichki()
+
+tashqi()  # Local</code></pre>
+
+                    <div class="warning-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-yellow-400">⚠️ Maslahat:</strong> <code>global</code> kalit so'zini imkon qadar kam ishlating! Bu kodni tushunishni qiyinlashtiradi. Funksiyalar argument qabul qilib, natija qaytarsa yaxshiroq.</p>
+                    </div>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 8</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Kalkulyator funksiyasi</h4>
+                        <p class="text-sm text-gray-300"><code>kalkulyator(a, b, amal)</code> funksiyasini yarating. <code>amal</code> parametri <code>"+", "-", "*", "/"</code> qiymatlarni qabul qilsin va mos natijani qaytarsin.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: *args bilan yig'indi</h4>
+                        <p class="text-sm text-gray-300"><code>*args</code> qabul qiladigan funksiya yarating. U barcha sonlarning yig'indisi, ko'paytmasi va o'rtacha qiymatini qaytarsin.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: **kwargs bilan profil</h4>
+                        <p class="text-sm text-gray-300"><code>**kwargs</code> qabul qiladigan <code>profil_yarat()</code> funksiyasini yarating. U barcha ma'lumotlarni chiroyli formatda chiqarsin.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: Tub son tekshiruvchi</h4>
+                        <p class="text-sm text-gray-300"><code>tub_sonmi(n)</code> funksiyasini yarating. Son tub bo'lsa <code>True</code>, aks holda <code>False</code> qaytarsin. Dars 4 dagi tsikl va shartlardan foydalaning.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: Password generator</h4>
+                        <p class="text-sm text-gray-300"><code>parol_yarat(uzunlik=8)</code> funksiyasini yarating. Default uzunlik 8 bo'lsin. Tasodifiy parol generatsiya qilsin (<code>random</code> modulidan foydalaning). Oldingi darslardan <code>string</code>, <code>for</code>, <code>default argument</code> dan foydalaning.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 8 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> Funksiya — qayta ishlatiladigan kod bloki. <code>def</code> bilan e'lon qilinadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> <code>return</code> — funksiyadan natija qaytaradi. <code>return</code> bo'lmasa <code>None</code> qaytadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> Default argument: <code>def f(a, b=10):</code> — b ning standart qiymati 10.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> Keyword args: <code>f(ism="Ali", yosh=25)</code> — nom bilan uzatish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>*args</code> — ixtiyoriy sondagi pozitsion argumentlar (tuple).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> <code>**kwargs</code> — ixtiyoriy sondagi nomli argumentlar (dict).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> Tartib: pozitsion → default → *args → **kwargs</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> Local o'zgaruvchi — faqat funksiya ichida ko'rinadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> Global o'zgaruvchini o'zgartirish uchun <code>global</code> kalit so'zi kerak.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> LEGB qoidasi: Local → Enclosing → Global → Built-in.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 9 ==================== -->
+            <div id="lesson-9" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 9</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Murakkab funksiyalar va funksional dasturlash</h1>
+                    <p class="text-gray-400">Lambda, map, filter, reduce, zip, enumerate, closure</p>
+                </div>
+
+                <!-- 9.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">9.1</span>
+                        Takrorlash: def, args, kwargs
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+def salom(ism, til="uz"):
+    return f"Salom, {ism}!" if til == "uz" else f"Hello, {ism}!"
+
+print(salom("Ali"))  # Salom, Ali!
+
+def yigindi(*args):
+    return sum(args)
+print(yigindi(1, 2, 3, 4))  # 10</code></pre>
+                </section>
+
+                <!-- 9.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">9.2</span>
+                        Lambda (anonim) funksiyalar
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">Lambda</strong> — nomi yo'q, bir qatorli funksiya. Oddiy <code>def</code> o'rniga qisqa funksiyalar uchun ishlatiladi.
+                    </p>
+                    <pre><code class="language-python"># 📌 Lambda sintaksisi: lambda argumentlar: ifoda
+
+# Oddiy funksiya
+def kvadrat(x):
+    return x ** 2
+
+# Lambda bilan — bir qatorda!
+kvadrat = lambda x: x ** 2
+print(kvadrat(5))  # 25
+
+# Bir nechta argument
+qosh = lambda a, b: a + b
+print(qosh(3, 7))  # 10
+
+# Shartli lambda
+juft_toq = lambda x: "Juft" if x % 2 == 0 else "Toq"
+print(juft_toq(4))  # Juft
+print(juft_toq(7))  # Toq
+
+# 📌 Lambda qachon kerak?
+# Asosan map(), filter(), sort() kabi funksiyalarda ishlatiladi
+sonlar = [3, 1, 4, 1, 5, 9, 2, 6]
+
+# sorted() bilan lambda
+odamlar = [
+    {"ism": "Ali", "yosh": 25},
+    {"ism": "Vali", "yosh": 20},
+    {"ism": "Hasan", "yosh": 30}
+]
+
+# Yosh bo'yicha tartiblash
+tartiblangan = sorted(odamlar, key=lambda x: x["yosh"])
+for odam in tartiblangan:
+    print(f"{odam['ism']}: {odam['yosh']} yosh")
+# Vali: 20, Ali: 25, Hasan: 30</code></pre>
+                </section>
+
+                <!-- 9.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">9.3</span>
+                        map() va filter() funksiyalari
+                    </h2>
+                    <pre><code class="language-python"># 📌 map() — har bir elementga funksiya qo'llaydi
+sonlar = [1, 2, 3, 4, 5]
+
+# map bilan — har bir sonni kvadrat qilish
+kvadratlar = list(map(lambda x: x ** 2, sonlar))
+print(kvadratlar)  # [1, 4, 9, 16, 25]
+
+# List comprehension bilan (muqobil)
+kvadratlar2 = [x ** 2 for x in sonlar]
+print(kvadratlar2)  # [1, 4, 9, 16, 25]
+
+# Matnlar bilan
+ismlar = ["ali", "vali", "hasan"]
+katta_ismlar = list(map(str.upper, ismlar))
+print(katta_ismlar)  # ['ALI', 'VALI', 'HASAN']
+
+# 📌 filter() — shartga mos elementlarni saralaydi
+sonlar = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Faqat juft sonlarni olish
+juftlar = list(filter(lambda x: x % 2 == 0, sonlar))
+print(juftlar)  # [2, 4, 6, 8, 10]
+
+# Faqat musbat sonlar
+sonlar2 = [-5, -2, 0, 3, 7, -1, 4]
+musbatlar = list(filter(lambda x: x > 0, sonlar2))
+print(musbatlar)  # [3, 7, 4]
+
+# Matnlar bilan
+sozlar = ["python", "java", "c", "javascript", "go"]
+uzun = list(filter(lambda s: len(s) > 3, sozlar))
+print(uzun)  # ['python', 'java', 'javascript']</code></pre>
+                </section>
+
+                <!-- 9.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">9.4</span>
+                        reduce(), zip() va enumerate()
+                    </h2>
+                    <pre><code class="language-python"># 📌 reduce() — barcha elementlarni bitta qiymatga keltiradi
+from functools import reduce
+
+sonlar = [1, 2, 3, 4, 5]
+
+# Ko'paytma hisoblash
+kopaytma = reduce(lambda a, b: a * b, sonlar)
+print(kopaytma)  # 120 (1*2*3*4*5)
+
+# Yig'indi
+yigindi = reduce(lambda a, b: a + b, sonlar)
+print(yigindi)  # 15
+
+# Eng katta son
+eng_katta = reduce(lambda a, b: a if a > b else b, sonlar)
+print(eng_katta)  # 5
+
+# 📌 zip() — bir nechta ketma-ketlikni juftlaydi
+ismlar = ["Ali", "Vali", "Hasan"]
+yoshlar = [25, 20, 30]
+shaharlar = ["Toshkent", "Samarqand", "Buxoro"]
+
+for ism, yosh, shahar in zip(ismlar, yoshlar, shaharlar):
+    print(f"{ism}, {yosh} yosh, {shahar}")
+# Ali, 25 yosh, Toshkent
+# Vali, 20 yosh, Samarqand
+# Hasan, 30 yosh, Buxoro
+
+# zip dan dictionary yaratish
+lugat = dict(zip(ismlar, yoshlar))
+print(lugat)  # {'Ali': 25, 'Vali': 20, 'Hasan': 30}
+
+# 📌 enumerate() — indeks va qiymatni birga beradi
+mevalar = ["olma", "banan", "uzum", "nok"]
+
+for indeks, meva in enumerate(mevalar):
+    print(f"{indeks + 1}. {meva}")
+# 1. olma
+# 2. banan
+# 3. uzum
+# 4. nok
+
+# Boshlang'ich indeksni o'zgartirish
+for indeks, meva in enumerate(mevalar, start=10):
+    print(f"#{indeks}: {meva}")</code></pre>
+                </section>
+
+                <!-- 9.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">9.5</span>
+                        Inner functions va Closure
+                    </h2>
+                    <pre><code class="language-python"># 📌 Inner function — funksiya ichida funksiya
+def tashqi(ism):
+    def ichki():
+        return f"Salom, {ism}!"
+    return ichki()  # Ichki funksiyani chaqirish
+
+print(tashqi("Ali"))  # Salom, Ali!
+
+# 📌 Closure — ichki funksiya tashqi o'zgaruvchini "eslab qoladi"
+def ko_paytiruvchi_yarat(n):
+    """n ga ko'paytiruvchi funksiya yaratadi"""
+    def ko_paytir(x):
+        return x * n
+    return ko_paytir  # Funksiyani qaytaramiz (chaqirmaymiz!)
+
+ikki_ga = ko_paytiruvchi_yarat(2)
+uch_ga = ko_paytiruvchi_yarat(3)
+
+print(ikki_ga(5))   # 10 (5 * 2)
+print(ikki_ga(10))  # 20 (10 * 2)
+print(uch_ga(5))    # 15 (5 * 3)
+
+# 📌 Amaliy misol: Logger
+def logger_yarat(prefix):
+    def log(xabar):
+        print(f"[{prefix}] {xabar}")
+    return log
+
+info_log = logger_yarat("INFO")
+error_log = logger_yarat("ERROR")
+
+info_log("Dastur ishga tushdi")   # [INFO] Dastur ishga tushdi
+error_log("Fayl topilmadi!")      # [ERROR] Fayl topilmadi!
+
+# 📌 Decorator asoslari (closure'ning amaliy qo'llanilishi)
+import time
+
+def vaqt_olchash(func):
+    def wrapper(*args, **kwargs):
+        boshlanish = time.time()
+        natija = func(*args, **kwargs)
+        tugash = time.time()
+        print(f"{func.__name__} {tugash - boshlanish:.4f} sekundda ishladi")
+        return natija
+    return wrapper
+
+@vaqt_olchash
+def katta_hisob():
+    return sum(i ** 2 for i in range(1000000))
+
+natija = katta_hisob()
+# katta_hisob 0.XXXX sekundda ishladi</code></pre>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 9</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Lambda bilan saralash</h4>
+                        <p class="text-sm text-gray-300">So'zlar ro'yxatini yarating. <code>sorted()</code> va <code>lambda</code> yordamida so'zlarni uzunligi bo'yicha tartiblang.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: map va filter birgalikda</h4>
+                        <p class="text-sm text-gray-300">1-20 orasidagi sonlar ro'yxatidan avval <code>filter</code> bilan toq sonlarni ajrating, keyin <code>map</code> bilan har birini kubini hisoblang.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: zip bilan jadval</h4>
+                        <p class="text-sm text-gray-300">3 ta ro'yxat yarating: fanlar nomlari, baholar, o'qituvchilar. <code>zip()</code> va <code>enumerate()</code> yordamida chiroyli jadval chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: reduce bilan statistik</h4>
+                        <p class="text-sm text-gray-300"><code>reduce()</code> yordamida sonlar ro'yxatining yig'indisi, ko'paytmasi va eng katta qiymatini toping.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: Closure — Valyuta konvertor</h4>
+                        <p class="text-sm text-gray-300">Closure yordamida valyuta konvertor yarating: <code>konvertor_yarat(kurs)</code> funksiyasi valyuta kursini "eslab qoladi" va qaytarilgan funksiya summani konvertatsiya qiladi. Oldingi darslardan <code>def</code>, <code>return</code>, <code>f-string</code> dan foydalaning.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 9 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> Lambda — bir qatorli nomsiz funksiya: <code>lambda args: ifoda</code></p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> <code>map(func, iterable)</code> — har bir elementga funksiya qo'llaydi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> <code>filter(func, iterable)</code> — shartga mos elementlarni saralaydi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>reduce(func, iterable)</code> — barcha elementlarni bitta qiymatga keltiradi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>zip(a, b, c)</code> — bir nechta ketma-ketlikni juftlaydi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> <code>enumerate(iterable)</code> — indeks va qiymatni birga beradi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> map/filter natijasini <code>list()</code> ga o'rab oling.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> Inner function — funksiya ichida funksiya yaratish mumkin.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> Closure — ichki funksiya tashqi o'zgaruvchini "eslab qoladi".</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> Lambda asosan <code>sorted()</code>, <code>map()</code>, <code>filter()</code> da <code>key</code> parametri sifatida ishlatiladi.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 10 ==================== -->
+            <div id="lesson-10" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 10</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Fayllar bilan ishlash va OS modullari</h1>
+                    <p class="text-gray-400">Fayl rejimlari, with open, os, shutil modullari</p>
+                </div>
+
+                <!-- 10.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">10.1</span>
+                        Takrorlash: Lambda, map, filter
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+sonlar = [1, 2, 3, 4, 5]
+kv = list(map(lambda x: x**2, sonlar))
+juft = list(filter(lambda x: x % 2 == 0, sonlar))
+print(kv)    # [1, 4, 9, 16, 25]
+print(juft)  # [2, 4]</code></pre>
+                </section>
+
+                <!-- 10.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">10.2</span>
+                        Fayllarni ochish rejimlari
+                    </h2>
+                    <p class="text-gray-300 mb-4">Pythonda fayllar bilan ishlash <code>open()</code> funksiyasi orqali amalga oshiriladi:</p>
+                    <pre><code class="language-python"># 📌 Fayl ochish rejimlari:
+# "r" — Read (o'qish) — default. Fayl bo'lmasa xatolik!
+# "w" — Write (yozish) — Fayl bo'lmasa yaratadi. BOR faylni TOZALAYDI!
+# "a" — Append (qo'shish) — Fayl oxiriga qo'shadi. Bor faylni saqlaydi.
+# "r+" — O'qish + Yozish
+# "x" — Create (yaratish) — Fayl bor bo'lsa xatolik!
+
+# 📌 Yozish rejimi ("w")
+fayl = open("salom.txt", "w", encoding="utf-8")
+fayl.write("Salom, Dunyo!\n")
+fayl.write("Python juda zo'r!\n")
+fayl.close()  # MUHIM! Faylni yopish kerak!
+
+# 📌 Qo'shish rejimi ("a")
+fayl = open("salom.txt", "a", encoding="utf-8")
+fayl.write("Bu yangi qator\n")
+fayl.close()
+
+# 📌 O'qish rejimi ("r")
+fayl = open("salom.txt", "r", encoding="utf-8")
+matn = fayl.read()
+print(matn)
+fayl.close()</code></pre>
+
+                    <div class="warning-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-yellow-400">⚠️ MUHIM:</strong> <code>"w"</code> rejimi mavjud faylni TOZALAYDI (hamma narsa o'chadi)! Agar qo'shmoqchi bo'lsangiz, <code>"a"</code> ishlating. Har doim <code>encoding="utf-8"</code> qo'shing — lotin/kirill harflari to'g'ri ishlashi uchun!</p>
+                    </div>
+                </section>
+
+                <!-- 10.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">10.3</span>
+                        Fayldan o'qish usullari
+                    </h2>
+                    <pre><code class="language-python"># Faraz qilaylik, "data.txt" faylida:
+# Birinchi qator
+# Ikkinchi qator
+# Uchinchi qator
+
+# 📌 read() — BUTUN faylni bitta matn sifatida o'qiydi
+with open("data.txt", "r", encoding="utf-8") as f:
+    matn = f.read()
+    print(matn)
+    # Birinchi qator\nIkkinchi qator\nUchinchi qator
+
+# 📌 readline() — BIR qator o'qiydi
+with open("data.txt", "r", encoding="utf-8") as f:
+    qator1 = f.readline()  # Birinchi qator\n
+    qator2 = f.readline()  # Ikkinchi qator\n
+    print(qator1.strip())  # strip() bilan \n ni olib tashlash
+    print(qator2.strip())
+
+# 📌 readlines() — HAMMA qatorni ro'yxat sifatida o'qiydi
+with open("data.txt", "r", encoding="utf-8") as f:
+    qatorlar = f.readlines()
+    print(qatorlar)
+    # ['Birinchi qator\n', 'Ikkinchi qator\n', 'Uchinchi qator\n']
+
+    for i, qator in enumerate(qatorlar, 1):
+        print(f"{i}. {qator.strip()}")
+
+# 📌 Eng yaxshi usul — to'g'ridan-to'g'ri fayl bo'ylab aylanish
+with open("data.txt", "r", encoding="utf-8") as f:
+    for qator in f:
+        print(qator.strip())</code></pre>
+                </section>
+
+                <!-- 10.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">10.4</span>
+                        Context Manager: with open()
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <code>with open()</code> — faylni avtomatik yopadi. Xatolik bo'lsa ham fayl yopiladi. Bu <strong>eng xavfsiz va tavsiya etilgan</strong> usul!
+                    </p>
+                    <pre><code class="language-python"># ❌ Xavfli usul — .close() ni unutish mumkin
+f = open("data.txt", "r")
+matn = f.read()
+# ... xatolik bo'lsa?
+f.close()  # Unutilishi mumkin!
+
+# ✅ Xavfsiz usul — with open()
+with open("data.txt", "r", encoding="utf-8") as f:
+    matn = f.read()
+    print(matn)
+# Fayl avtomatik yopiladi! ✅
+
+# 📌 Amaliy misol: Kundalik yozish
+with open("kundalik.txt", "a", encoding="utf-8") as f:
+    from datetime import datetime
+    sana = datetime.now().strftime("%Y-%m-%d %H:%M")
+    f.write(f"\n[{sana}] Bugun Python o'rgandim! 🐍\n")
+
+# 📌 Faylni o'qib, tahlil qilish
+with open("baholar.txt", "w", encoding="utf-8") as f:
+    f.write("Ali:85\nVali:92\nHasan:78\nJasur:95\n")
+
+with open("baholar.txt", "r", encoding="utf-8") as f:
+    for qator in f:
+        ism, ball = qator.strip().split(":")
+        ball = int(ball)
+        baho = "A'lo" if ball >= 90 else "Yaxshi" if ball >= 75 else "Qoniqarli"
+        print(f"{ism}: {ball} ball — {baho}")</code></pre>
+                </section>
+
+                <!-- 10.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">10.5</span>
+                        Binary fayllar, os va shutil modullari
+                    </h2>
+                    <pre><code class="language-python"># 📌 Binary fayllar (rasm, audio, video va hk)
+# "rb" — binary o'qish, "wb" — binary yozish
+
+# Faylni nusxalash (binary)
+with open("rasm.jpg", "rb") as f:
+    data = f.read()
+
+with open("rasm_nusxa.jpg", "wb") as f:
+    f.write(data)
+
+# 📌 os moduli — fayl va papkalarni boshqarish
+import os
+
+# Joriy papka
+print(os.getcwd())  # /home/user/loyiha
+
+# Papka yaratish
+os.mkdir("yangi_papka")         # Bitta papka
+os.makedirs("a/b/c")            # Ichma-ich papkalar
+
+# Papka tarkibi
+fayllar = os.listdir(".")       # Joriy papkadagi fayllar
+print(fayllar)
+
+# Fayl/papka mavjudligini tekshirish
+print(os.path.exists("data.txt"))    # True/False
+print(os.path.isfile("data.txt"))    # Faylmi?
+print(os.path.isdir("yangi_papka"))  # Papkami?
+
+# Fayl o'chirish
+os.remove("eski_fayl.txt")
+
+# Papka o'chirish (bo'sh bo'lsa)
+os.rmdir("yangi_papka")
+
+# Fayl hajmi
+hajm = os.path.getsize("data.txt")  # Baytlarda
+print(f"Fayl hajmi: {hajm} bayt")
+
+# 📌 shutil moduli — kengaytirilgan fayl amallari
+import shutil
+
+# Fayl nusxalash
+shutil.copy("data.txt", "data_nusxa.txt")
+
+# Papkani butunlay nusxalash
+shutil.copytree("papka1", "papka2")
+
+# Fayl/papka ko'chirish
+shutil.move("data.txt", "yangi_papka/data.txt")
+
+# Papkani butunlay o'chirish
+shutil.rmtree("papka2")</code></pre>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 10</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Kundalik fayl</h4>
+                        <p class="text-sm text-gray-300"><code>with open()</code> yordamida "kundalik.txt" fayl yarating. Foydalanuvchidan 3 ta gap so'rang va faylga yozing. Keyin faylni o'qib, ekranga chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: So'z sanagich fayl</h4>
+                        <p class="text-sm text-gray-300">Matn fayl yarating (bir nechta gap bilan). Faylni o'qib, so'zlar sonini, qatorlar sonini va eng ko'p ishlatilgan so'zni toping.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: Papka boshqaruvi</h4>
+                        <p class="text-sm text-gray-300"><code>os</code> moduli yordamida "loyiha" papkasini yarating. Ichida "src", "data", "docs" papkalarini yarating. Joriy papkadagi barcha fayllarni ro'yxatini chiqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: Talabalar ro'yxati fayl</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan 5 ta talaba ismi va bahosini so'rang. "talabalar.txt" faylga yozing. Keyin faylni o'qib, o'rtacha bahoni hisoblang. Oldingi darslardan <code>input()</code>, <code>dict</code>, <code>for</code>, <code>f-string</code> dan foydalaning.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: Fayl nusxalash</h4>
+                        <p class="text-sm text-gray-300"><code>shutil.copy()</code> yordamida yaratilgan faylni nusxalang. <code>os.path.exists()</code> bilan nusxa mavjudligini tekshiring. Fayl hajmini <code>os.path.getsize()</code> bilan chiqaring.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 10 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> <code>"r"</code> — o'qish, <code>"w"</code> — yozish (tozalaydi!), <code>"a"</code> — qo'shish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> Har doim <code>encoding="utf-8"</code> qo'shing!</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> <code>with open()</code> — eng xavfsiz usul, faylni avtomatik yopadi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>read()</code> — butun fayl, <code>readline()</code> — bir qator, <code>readlines()</code> — ro'yxat.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>for qator in fayl:</code> — fayl bo'ylab aylanishning eng yaxshi usuli.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> <code>"rb"</code> / <code>"wb"</code> — binary fayllar (rasm, video, audio).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> <code>os.getcwd()</code>, <code>os.listdir()</code>, <code>os.mkdir()</code> — papka boshqaruvi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> <code>os.path.exists()</code>, <code>os.path.isfile()</code>, <code>os.path.isdir()</code> — tekshirish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> <code>shutil.copy()</code> — fayl nusxalash, <code>shutil.move()</code> — ko'chirish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> <code>shutil.rmtree()</code> — papkani butunlay o'chirish. Ehtiyot bo'ling!</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 11 ==================== -->
+            <div id="lesson-11" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 11</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Xatoliklar bilan ishlash (Exception Handling)</h1>
+                    <p class="text-gray-400">try-except, raise, assert, logging</p>
+                </div>
+
+                <!-- 11.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">11.1</span>
+                        Takrorlash: Fayllar va OS
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+with open("test.txt", "w", encoding="utf-8") as f:
+    f.write("Salom!")
+
+import os
+print(os.path.exists("test.txt"))  # True</code></pre>
+                </section>
+
+                <!-- 11.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">11.2</span>
+                        SyntaxError vs Exceptions
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        Pythonda ikki turdagi xatolik bor:
+                    </p>
+                    <pre><code class="language-python"># ❌ SyntaxError — kod noto'g'ri yozilgan (dastur ISHLAMAYDI)
+# print("Salom"    # Yopuvchi qavs yo'q!
+# if True          # Ikki nuqta yo'q!
+#     print("ha")
+
+# ✅ Exception (Istisno) — kod to'g'ri, lekin ishlash jarayonida xatolik
+# print(10 / 0)       # ZeroDivisionError
+# print(int("abc"))   # ValueError
+# print(x)            # NameError (x e'lon qilinmagan)
+
+# 📌 Eng ko'p uchraydigan xatoliklar:
+# ValueError — noto'g'ri qiymat
+# TypeError — noto'g'ri tur
+# ZeroDivisionError — nolga bo'lish
+# FileNotFoundError — fayl topilmadi
+# KeyError — dictionary kaliti topilmadi
+# IndexError — ro'yxat indeksi topilmadi
+# NameError — o'zgaruvchi topilmadi
+# AttributeError — atribut/metod topilmadi</code></pre>
+                </section>
+
+                <!-- 11.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">11.3</span>
+                        try-except bloklari
+                    </h2>
+                    <pre><code class="language-python"># 📌 try-except asoslari
+try:
+    son = int(input("Son kiriting: "))
+    natija = 100 / son
+    print(f"100 / {son} = {natija}")
+except ValueError:
+    print("❌ Iltimos, son kiriting!")
+except ZeroDivisionError:
+    print("❌ Nolga bo'lish mumkin emas!")
+except Exception as e:
+    print(f"❌ Noma'lum xatolik: {e}")
+
+# 📌 try-except-else-finally to'liq tuzilishi
+try:
+    fayl = open("data.txt", "r", encoding="utf-8")
+    matn = fayl.read()
+except FileNotFoundError:
+    print("❌ Fayl topilmadi!")
+except Exception as e:
+    print(f"❌ Xatolik: {e}")
+else:
+    # try muvaffaqiyatli bo'lsa ishlaydi
+    print("✅ Fayl o'qildi:")
+    print(matn)
+finally:
+    # HAR DOIM ishlaydi (xatolik bo'lsa ham, bo'lmasa ham)
+    print("📌 Dastur tugadi")
+
+# 📌 Amaliy misol: Xavfsiz kalkulyator
+def xavfsiz_hisobla():
+    while True:
+        try:
+            a = float(input("Birinchi son: "))
+            amal = input("Amal (+, -, *, /): ")
+            b = float(input("Ikkinchi son: "))
+
+            if amal == "+":
+                print(f"Natija: {a + b}")
+            elif amal == "/":
+                print(f"Natija: {a / b}")
+            # ...
+        except ValueError:
+            print("❌ Faqat son kiriting!")
+        except ZeroDivisionError:
+            print("❌ Nolga bo'lish mumkin emas!")
+        except KeyboardInterrupt:
+            print("\n👋 Dastur to'xtatildi")
+            break
+
+        davom = input("Davom etasizmi? (ha/yo'q): ")
+        if davom.lower() != "ha":
+            break</code></pre>
+                </section>
+
+                <!-- 11.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">11.4</span>
+                        raise, custom exceptions, assert va logging
+                    </h2>
+                    <pre><code class="language-python"># 📌 raise — sun'iy xatolik chaqirish
+def yosh_tekshirish(yosh):
+    if yosh < 0:
+        raise ValueError("Yosh manfiy bo'lishi mumkin emas!")
+    if yosh > 150:
+        raise ValueError("Yosh juda katta!")
+    return f"Yoshingiz: {yosh}"
+
+try:
+    yosh_tekshirish(-5)
+except ValueError as e:
+    print(f"Xatolik: {e}")  # Xatolik: Yosh manfiy bo'lishi mumkin emas!
+
+# 📌 Custom Exception — o'z xatolik sinfingiz
+class ParolXatosi(Exception):
+    """Parol bilan bog'liq xatoliklar"""
+    pass
+
+class ParolQisqa(ParolXatosi):
+    """Parol juda qisqa"""
+    pass
+
+def parol_tekshirish(parol):
+    if len(parol) < 8:
+        raise ParolQisqa("Parol kamida 8 ta belgi bo'lishi kerak!")
+    if not any(c.isdigit() for c in parol):
+        raise ParolXatosi("Parolda raqam bo'lishi kerak!")
+    return "✅ Parol qabul qilindi"
+
+try:
+    parol_tekshirish("abc")
+except ParolQisqa as e:
+    print(f"Parol xatosi: {e}")
+
+# 📌 assert — test qilish uchun
+def bo'lish(a, b):
+    assert b != 0, "Nolga bo'lish mumkin emas!"
+    return a / b
+
+# print(bo'lish(10, 0))  # AssertionError: Nolga bo'lish mumkin emas!
+
+# 📌 Logging — xatoliklarni faylga yozish
+import logging
+
+# Logging sozlamalari
+logging.basicConfig(
+    filename="dastur.log",
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+logging.debug("Bu debug xabari")
+logging.info("Bu ma'lumot")
+logging.warning("Bu ogohlantirish")
+logging.error("Bu xatolik!")
+logging.critical("Bu jiddiy xatolik!")
+
+# Amaliy misol
+def xavfsiz_fayl_oqish(fayl_nomi):
+    try:
+        with open(fayl_nomi, "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        logging.error(f"Fayl topilmadi: {fayl_nomi}")
+        return None
+    except Exception as e:
+        logging.critical(f"Kutilmagan xatolik: {e}")
+        return None</code></pre>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 11</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: Xavfsiz input</h4>
+                        <p class="text-sm text-gray-300">Foydalanuvchidan yosh so'rang. <code>try-except</code> yordamida noto'g'ri kiritish (matn, bo'sh) holatlarini boshqaring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: Fayl xatoliklari</h4>
+                        <p class="text-sm text-gray-300">Mavjud bo'lmagan faylni o'qishga harakat qiling. <code>FileNotFoundError</code> ni tuting va foydalanuvchiga tushunarli xabar bering.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: Custom Exception</h4>
+                        <p class="text-sm text-gray-300"><code>EmailXatosi</code> nomli custom exception yarating. Email formatini tekshiradigan funksiya yozing. <code>"@"</code> yoki <code>"."</code> bo'lmasa, <code>EmailXatosi</code> ko'taring.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: Logging</h4>
+                        <p class="text-sm text-gray-300">Kalkulyator dasturiga <code>logging</code> qo'shing. Har bir amal, natija va xatolik log faylga yozilsin.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: To'liq xavfsiz dastur</h4>
+                        <p class="text-sm text-gray-300">Fayldan ma'lumot o'qiydigan, tahlil qiladigan va natijani boshqa faylga yozadigan dastur yarating. Barcha mumkin bo'lgan xatoliklarni <code>try-except-else-finally</code> bilan boshqaring. Oldingi barcha darslardan foydalaning!</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 11 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> SyntaxError — kod noto'g'ri yozilgan. Exception — ishlash jarayonidagi xatolik.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> <code>try</code> — xatolik bo'lishi mumkin bo'lgan kod. <code>except</code> — xatolikni tutish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> Har bir xatolik turini alohida tutish: <code>except ValueError:</code></p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>else</code> — try muvaffaqiyatli bo'lsa ishlaydi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>finally</code> — HAR DOIM ishlaydi (xatolik bo'lsa ham).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> <code>raise</code> — sun'iy xatolik chaqirish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> Custom Exception — <code>class MyError(Exception): pass</code></p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> <code>assert shart, "xabar"</code> — test qilish uchun.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> <code>logging</code> — xatoliklarni faylga yozish (debug, info, warning, error, critical).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> <code>except Exception as e:</code> — barcha xatoliklarni tutish (oxirida yozing!).</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== DARS 12 ==================== -->
+            <div id="lesson-12" class="lesson-content fade-in">
+                <div class="mb-8">
+                    <div class="inline-block bg-pyblue/20 text-pyyellow text-xs px-3 py-1 rounded-full mb-3">DARS 12</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Modullar, Paketlar va Virtual muhit (Venv)</h1>
+                    <p class="text-gray-400">import, pip, venv, requirements.txt, standart kutubxonalar</p>
+                </div>
+
+                <!-- 12.1 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">12.1</span>
+                        Takrorlash: Exception Handling
+                    </h2>
+                    <pre><code class="language-python"># Tezkor takrorlash
+try:
+    son = int(input("Son: "))
+    print(100 / son)
+except ValueError:
+    print("Son kiriting!")
+except ZeroDivisionError:
+    print("Nolga bo'lmang!")
+finally:
+    print("Tugadi!")</code></pre>
+                </section>
+
+                <!-- 12.2 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">12.2</span>
+                        Modul nima? O'z modulingizni yaratish
+                    </h2>
+                    <p class="text-gray-300 mb-4">
+                        <strong class="text-white">Modul</strong> — bu Python fayli (<code>.py</code>) bo'lib, unda funksiyalar, sinflar va o'zgaruvchilar bo'ladi. Modullar kodni qayta ishlatish imkonini beradi.
+                    </p>
+                    <pre><code class="language-python"># 📌 O'z modulingizni yaratish
+# "hisoblash.py" fayli yarating:
+
+# === hisoblash.py ===
+"""Hisoblash moduli — arifmetik amallar"""
+
+PI = 3.14159
+
+def qosh(a, b):
+    return a + b
+
+def ayir(a, b):
+    return a - b
+
+def kopaytir(a, b):
+    return a * b
+
+def bol(a, b):
+    if b == 0:
+        raise ValueError("Nolga bo'lish mumkin emas!")
+    return a / b
+
+def kvadrat(a):
+    return a ** 2
+
+# === asosiy.py ===
+# 1-usul: Butun modulni import qilish
+import hisoblash
+print(hisoblash.qosh(5, 3))    # 8
+print(hisoblash.PI)            # 3.14159
+
+# 2-usul: Alohida funksiyalarni import qilish
+from hisoblash import qosh, kvadrat
+print(qosh(10, 20))    # 30
+print(kvadrat(5))      # 25
+
+# 3-usul: Hammasini import qilish (tavsiya etilmaydi)
+from hisoblash import *
+print(qosh(1, 2))
+
+# 4-usul: Taxallus (alias) bilan
+import hisoblash as h
+print(h.qosh(5, 5))    # 10
+
+from hisoblash import qosh as q
+print(q(3, 4))         # 7</code></pre>
+                </section>
+
+                <!-- 12.3 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">12.3</span>
+                        Paketlar va __init__.py
+                    </h2>
+                    <pre><code class="language-python"># 📌 Paket tuzilmasi:
+# loyiha/
+# ├── main.py
+# └── modullar/
+#     ├── __init__.py      # Bu papka paket ekanligini bildiradi
+#     ├── hisoblash.py
+#     ├── matn.py
+#     └── fayl.py
+
+# __init__.py — paketni import qilganda nima yuklanishini belgilaydi
+# === modullar/__init__.py ===
+from .hisoblash import qosh, ayir
+from .matn import katta_qil, kichik_qil
+
+__all__ = ["qosh", "ayir", "katta_qil", "kichik_qil"]
+
+# === main.py ===
+from modullar import qosh, katta_qil
+print(qosh(5, 3))         # 8
+print(katta_qil("salom")) # SALOM
+
+# 📌 Python 3.3+ da __init__.py majburiy emas,
+# lekin uni qo'shish yaxshi amaliyot!</code></pre>
+                </section>
+
+                <!-- 12.4 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">12.4</span>
+                        Standart kutubxonalar
+                    </h2>
+                    <pre><code class="language-python"># 📌 math — matematik funksiyalar
+import math
+
+print(math.pi)          # 3.141592653589793
+print(math.sqrt(16))    # 4.0 (kvadrat ildiz)
+print(math.ceil(3.2))   # 4 (yuqoriga yaxlitlash)
+print(math.floor(3.8))  # 3 (pastga yaxlitlash)
+print(math.pow(2, 3))   # 8.0 (2³)
+print(math.factorial(5)) # 120
+
+# 📌 random — tasodifiy qiymatlar
+import random
+
+print(random.randint(1, 10))     # 1-10 orasida tasodifiy butun son
+print(random.random())            # 0.0-1.0 orasida tasodifiy float
+print(random.choice(["a", "b", "c"]))  # Tasodifiy tanlash
+print(random.sample(range(100), 5))    # 5 ta tasodifiy son
+
+ro_yxat = [1, 2, 3, 4, 5]
+random.shuffle(ro_yxat)          # Aralashtirish
+print(ro_yxat)
+
+# 📌 datetime — sana va vaqt
+from datetime import datetime, date, timedelta
+
+hozir = datetime.now()
+print(hozir)                          # 2025-01-15 14:30:00.123456
+print(hozir.strftime("%Y-%m-%d"))     # 2025-01-15
+print(hozir.strftime("%H:%M:%S"))     # 14:30:00
+print(hozir.strftime("%d-%B-%Y, %A")) # 15-January-2025, Wednesday
+
+# Sanaga kun qo'shish
+ertaga = hozir + timedelta(days=1)
+hafta_keyin = hozir + timedelta(weeks=1)
+
+# 📌 json — JSON format bilan ishlash
+import json
+
+# Python → JSON
+data = {
+    "ism": "Ali",
+    "yosh": 25,
+    "fanlar": ["Matematika", "Fizika"]
+}
+json_matn = json.dumps(data, ensure_ascii=False, indent=2)
+print(json_matn)
+
+# JSON → Python
+qayta = json.loads(json_matn)
+print(qayta["ism"])  # Ali
+
+# Faylga yozish
+with open("data.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+
+# Fayldan o'qish
+with open("data.json", "r", encoding="utf-8") as f:
+    malumot = json.load(f)
+    print(malumot)</code></pre>
+                </section>
+
+                <!-- 12.5 -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-pyyellow mb-4 flex items-center">
+                        <span class="bg-pyblue/30 text-pyyellow text-sm w-8 h-8 rounded-full flex items-center justify-center mr-3">12.5</span>
+                        pip, Virtual Environment va requirements.txt
+                    </h2>
+                    <pre><code class="language-python"># 📌 pip — Python paket menejeri
+# Terminalda ishlatiladi (Python kodida emas!)
+
+# Paket o'rnatish
+# pip install requests
+# pip install flask
+# pip install django
+
+# Ma'lum bir versiyani o'rnatish
+# pip install requests==2.28.0
+
+# Paketni o'chirish
+# pip uninstall requests
+
+# O'rnatilgan paketlar ro'yxati
+# pip list
+# pip freeze
+
+# 📌 Virtual Environment (venv) — loyiha izolatsiyasi
+# Nima uchun kerak? Har bir loyihaning o'z kutubxonalari bo'ladi.
+# Bitta loyihaga o'rnatilgan kutubxona boshqasiga ta'sir qilmaydi.
+
+# Venv yaratish:
+# python -m venv venv          (Windows)
+# python3 -m venv venv         (macOS/Linux)
+
+# Faollashtirish:
+# venv\Scripts\activate        (Windows)
+# source venv/bin/activate     (macOS/Linux)
+
+# O'chirish:
+# deactivate
+
+# 📌 requirements.txt — kutubxonalar ro'yxati
+# Loyihadagi barcha kutubxonalarni saqlash:
+# pip freeze > requirements.txt
+
+# requirements.txt namunasi:
+# requests==2.28.0
+# flask==2.2.0
+# python-dotenv==0.21.0
+
+# Boshqa kompyuterda o'rnatish:
+# pip install -r requirements.txt
+
+# 📌 Amaliy misol: requests kutubxonasi bilan API chaqirish
+# pip install requests
+
+import requests
+
+javob = requests.get("https://api.github.com")
+print(f"Status: {javob.status_code}")  # 200
+print(javob.json())  # JSON ma'lumot</code></pre>
+
+                    <div class="tip-box rounded-lg p-4">
+                        <p class="text-sm text-gray-300"><strong class="text-green-400">🎯 Eng yaxshi amaliyot:</strong> Har bir loyiha uchun alohida <code>venv</code> yarating! Bu kutubxonalar versiyalari aralashib ketishining oldini oladi. Loyihani boshqaga berganingizda <code>requirements.txt</code> ni ham bering.</p>
+                    </div>
+                </section>
+
+                <!-- Exercises -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-purple-400 mb-4">📝 Amaliy topshiriqlar — Dars 12</h2>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 1: O'z modulingiz</h4>
+                        <p class="text-sm text-gray-300"><code>foydali.py</code> moduli yarating. Ichida: <code>foiz_hisobla()</code>, <code>orta_qiymat()</code>, <code>parol_yarat()</code> funksiyalari bo'lsin. Boshqa fayldan import qilib ishlating.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 2: math va random</h4>
+                        <p class="text-sm text-gray-300"><code>math</code> moduli yordamida doira yuzi va perimetrini hisoblaydigan funksiya yarating. <code>random</code> bilan tasodifiy radius generatsiya qiling.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 3: JSON bilan ishlash</h4>
+                        <p class="text-sm text-gray-300">5 ta talaba ma'lumotini (ism, yosh, baho) dictionary sifatida yarating. <code>json</code> moduli yordamida faylga saqlang va qayta o'qing.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 4: datetime bilan loyiha</h4>
+                        <p class="text-sm text-gray-300"><code>datetime</code> moduli yordamida tug'ilgan kuningizdan bugungi kungacha necha kun o'tganligini hisoblang. Keyingi tug'ilgan kuningizgacha necha kun qolganini ham toping.</p>
+                    </div>
+                    <div class="exercise-box rounded-lg p-5 mb-3">
+                        <h4 class="text-purple-300 font-semibold mb-2">Topshiriq 5: Venv va requirements</h4>
+                        <p class="text-sm text-gray-300">Yangi loyiha papkasini yarating. <code>venv</code> yarating va faollashtiring. <code>requests</code> va <code>colorama</code> kutubxonalarini o'rnating. <code>requirements.txt</code> generatsiya qiling. Barcha buyruqlarni terminalda bajaring va natijalarini yozing.</p>
+                    </div>
+                </section>
+
+                <!-- 10 Key Points -->
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-red-400 mb-4">🔑 Dars 12 — Esda qoladigan 10 ta asosiy fakt</h2>
+                    <div class="space-y-3">
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">1.</strong> Modul — <code>.py</code> fayl. Paket — modullar to'plami (papka).</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">2.</strong> <code>import modul</code>, <code>from modul import funksiya</code>, <code>import modul as m</code></p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">3.</strong> <code>__init__.py</code> — papkani paketga aylantiradi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">4.</strong> <code>math</code> — matematik funksiyalar. <code>random</code> — tasodifiy qiymatlar.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">5.</strong> <code>datetime</code> — sana va vaqt bilan ishlash.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">6.</strong> <code>json</code> — JSON format bilan ishlash. <code>dump/load</code> — fayl uchun.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">7.</strong> <code>pip install paket</code> — tashqi kutubxona o'rnatish.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">8.</strong> <code>venv</code> — virtual muhit, loyihalarni izolatsiya qiladi.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">9.</strong> <code>pip freeze > requirements.txt</code> — kutubxonalar ro'yxatini saqlash.</p></div>
+                        <div class="key-point rounded-lg p-3"><p class="text-sm text-gray-300"><strong class="text-red-400">10.</strong> <code>pip install -r requirements.txt</code> — ro'yxatdagi hammasini o'rnatish.</p></div>
+                    </div>
+                </section>
+
+                <!-- Kurs yakuni -->
+                <section class="mt-12 mb-10 p-8 bg-gradient-to-r from-pyblue/20 to-pyyellow/10 rounded-2xl border border-pyyellow/20 text-center">
+                    <h2 class="text-3xl font-bold text-pyyellow mb-4">🎉 Tabriklaymiz! Kursni tugatdingiz!</h2>
+                    <p class="text-gray-300 mb-4">Siz Python dasturlashning asoslarini o'rganib chiqdingiz. Endi amaliyot vaqti keldi!</p>
+                    <p class="text-gray-400 text-sm">Keyingi qadam: Django yoki FastAPI frameworklarini o'rganing, real loyihalar yarating va GitHub'da portfolio to'plang. Omad! 🐍</p>
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function showLesson(num) {
+            // Hide all lessons
+            document.querySelectorAll('.lesson-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Show selected lesson
+            const lesson = document.getElementById('lesson-' + num);
+            if (lesson) {
+                lesson.classList.add('active');
+                lesson.classList.remove('fade-in');
+                void lesson.offsetWidth; // trigger reflow
+                lesson.classList.add('fade-in');
+            }
+            // Update nav
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+            });
+            const navItem = document.querySelector(`.nav-item[data-lesson="${num}"]`);
+            if (navItem) navItem.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Close mobile menu
+            closeMobileMenu();
+
+            // Re-highlight code
+            if (typeof Prism !== 'undefined') {
+                Prism.highlightAll();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('hidden');
+        }
+
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            sidebar.classList.remove('open');
+            overlay.classList.add('hidden');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            Prism.highlightAll();
+        });
+    </script>
+</body>
+</html>
